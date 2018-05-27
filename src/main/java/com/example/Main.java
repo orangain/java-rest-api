@@ -14,9 +14,9 @@ import org.glassfish.jersey.servlet.ServletContainer;
 
 import com.example.entity.Customer;
 
-public class Application {
+public class Main {
 	public static void main(String[] args) throws Exception {
-		try (InputStream in = Application.class.getResourceAsStream("/mybatis-config.xml")) {
+		try (InputStream in = Main.class.getResourceAsStream("/mybatis-config.xml")) {
 			SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(in);
 			try (SqlSession session = factory.openSession()) {
 				List<Customer> result = session.selectList("com.example.customerSelect");
