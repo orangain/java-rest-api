@@ -3,7 +3,7 @@ package com.example.dto;
 import java.time.LocalDateTime;
 
 public class CustomerDTO {
-	private int id;
+	private int customerId;
 	private int storeId;
 	private String firstName;
 	private String lastName;
@@ -13,12 +13,12 @@ public class CustomerDTO {
 	private LocalDateTime createDate;
 	private LocalDateTime lastUpdate;
 
-	public int getId() {
-		return id;
+	public int getCustomerId() {
+		return customerId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setCustomerId(int id) {
+		this.customerId = id;
 	}
 
 	public int getStoreId() {
@@ -83,5 +83,11 @@ public class CustomerDTO {
 
 	public void setLastUpdate(LocalDateTime lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("customerId=%s, firstName=%s, lastName=%s", this.customerId, this.firstName,
+				this.lastName);
 	}
 }
