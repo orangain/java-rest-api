@@ -6,8 +6,11 @@
  * user guide available at https://docs.gradle.org/4.3/userguide/java_library_plugin.html
  */
 
-// Apply the java-library plugin to add support for Java Library
-apply plugin: 'java-library'
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "com.example.Application"
+
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -17,13 +20,12 @@ repositories {
 }
 
 dependencies {
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api 'org.apache.commons:commons-math3:3.6.1'
+    compile 'org.glassfish.jersey.core:jersey-server:2.27'
+    compile 'org.glassfish.jersey.containers:jersey-container-jetty-servlet:2.27'
+    compile 'org.glassfish.jersey.inject:jersey-hk2:2.27'
+    compile 'org.eclipse.jetty:jetty-server:9.4.10.v20180503'
+    compile 'org.eclipse.jetty:jetty-servlet:9.4.10.v20180503'
 
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'com.google.guava:guava:23.0'
-
-    // Use JUnit test framework
-    testImplementation 'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
 }
 
