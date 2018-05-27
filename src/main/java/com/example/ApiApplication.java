@@ -12,14 +12,14 @@ public class ApiApplication extends ResourceConfig {
 	SqlSessionFactory sqlSessionFactory;
 
 	public ApiApplication() throws IOException {
-		packages("com.example");
+		packages("com.example.resource");
 
 		try (InputStream in = Main.class.getResourceAsStream("/mybatis-config.xml")) {
 			this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(in);
 		}
 	}
 
-	SqlSession openSession() {
+	public SqlSession openSession() {
 		return this.sqlSessionFactory.openSession();
 	}
 }

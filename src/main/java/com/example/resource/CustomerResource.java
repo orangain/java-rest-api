@@ -1,4 +1,4 @@
-package com.example;
+package com.example.resource;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -15,6 +15,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import com.example.ApiApplication;
 import com.example.dto.CustomerDTO;
 import com.example.entity.Customer;
 
