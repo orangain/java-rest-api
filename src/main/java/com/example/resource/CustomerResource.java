@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -16,6 +17,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import com.example.ApiApplication;
 import com.example.dto.Customer;
+import com.example.parameter.CustomerParameter;
 
 @Path("customers")
 public class CustomerResource {
@@ -32,6 +34,18 @@ public class CustomerResource {
 	public List<Customer> getCustomers() {
 		try (SqlSession session = this.openSession()) {
 			return session.selectList("com.example.selectCustomer");
+		}
+	}
+
+	@GET
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Customer getCustomer(@PathParam("id") int id) {
+		final CustomerParameter parameter = new CustomerParameter();
+		parameter.setCustomerId(id);
+
+		try (SqlSession session = this.openSession()) {
+			return session.selectOne("com.example.selectCustomer", parameter);
 		}
 	}
 
