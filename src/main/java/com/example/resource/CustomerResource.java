@@ -29,6 +29,12 @@ public class CustomerResource {
 		return application.openSession();
 	}
 
+	private Customer doGetCustomer(SqlSession session, int id) {
+		final CustomerParameter parameter = new CustomerParameter();
+		parameter.setCustomerId(id);
+		return session.selectOne("com.example.selectCustomer", parameter);
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Customer> getCustomers() {
@@ -41,23 +47,22 @@ public class CustomerResource {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Customer getCustomer(@PathParam("id") int id) {
-		final CustomerParameter parameter = new CustomerParameter();
-		parameter.setCustomerId(id);
-
 		try (SqlSession session = this.openSession()) {
-			return session.selectOne("com.example.selectCustomer", parameter);
+			return this.doGetCustomer(session, id);
 		}
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Customer createCustomer(Customer customer) {
 		try (SqlSession session = this.openSession()) {
 			int numAffected = session.insert("com.example.insertCustomer", customer);
 			if (numAffected == 0) {
 				throw new RuntimeException("Failed to insert");
 			}
-			return customer;
+
+			return this.doGetCustomer(session, customer.getCustomerId());
 		}
 	}
 }
