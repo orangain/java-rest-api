@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example">
-  <select id="customerSelect" resultType="com.example.dto.Customer">
-    select * from customer
-  </select>
+	<select id="customerSelect" resultMap="customerResultMap">
+		SELECT
+			customer_id,
+			store_id,
+			first_name,
+			last_name,
+			email,
+			active,
+			create_date,
+			customer.last_update AS customer_last_update,
+			address.address_id,
+			address,
+			address2,
+			district,
+			address.last_update AS address_last_update
+		FROM customer
+		LEFT JOIN address ON customer.address_id = address.address_id
+	</select>
+	<resultMap id="customerResultMap"
+		type="com.example.dto.Customer">
+		<id property="customerId" column="customer_id" />
+		<result property="storeId" column="store_id" />
+		<result property="firstName" column="first_name" />
+		<result property="lastName" column="last_name" />
+		<result property="email" column="email" />
+		<result property="active" column="active" />
+		<result property="createDate" column="create_date" />
+		<result property="lastUpdate" column="customer_last_update" />
+		<association property="address" javaType="com.example.dto.Address">
+			<id property="addressId" column="address_id" />
+			<result property="address" column="address" />
+			<result property="address2" column="address2" />
+			<result property="district" column="district" />
+			<result property="lastUpdate" column="address_last_update" />
+		</association>
+	</resultMap>
 </mapper>

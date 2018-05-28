@@ -8,7 +8,7 @@ public class Customer {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private int addressId;
+	private Address address;
 	private boolean active;
 	private LocalDateTime createDate;
 	private LocalDateTime lastUpdate;
@@ -53,12 +53,12 @@ public class Customer {
 		this.email = email;
 	}
 
-	public int getAddressId() {
-		return addressId;
+	public Address getAddress() {
+		return address;
 	}
 
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public boolean isActive() {
@@ -90,4 +90,5 @@ public class Customer {
 		return String.format("customerId=%s, firstName=%s, lastName=%s", this.customerId, this.firstName,
 				this.lastName);
 	}
+
 }
