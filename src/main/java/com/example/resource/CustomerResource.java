@@ -2,6 +2,7 @@ package com.example.resource;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -17,7 +18,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import com.example.ApiApplication;
 import com.example.dto.CustomerDTO;
-import com.example.entity.Customer;
 
 @Path("customers")
 public class CustomerResource {
@@ -30,15 +30,17 @@ public class CustomerResource {
 		ApiApplication application = (ApiApplication) ((ResourceConfig) this.application).getApplication();
 
 		try (SqlSession session = application.openSession()) {
-			List<Customer> customers = session.selectList("com.example.customerSelect");
+			List<Map<String, Object>> customers = session.selectList("com.example.customerSelect");
 
-			return customers.stream().map(customerEntity -> {
+			return customers.stream().map(entity -> {
 				CustomerDTO customerDTO = new CustomerDTO();
-				try {
-					BeanUtils.copyProperties(customerDTO, customerEntity);
-				} catch (IllegalAccessException | InvocationTargetException e) {
-					throw new RuntimeException(e);
-				}
+				entity.forEach((key, value) -> {
+					try {
+						BeanUtils.copyProperty(customerDTO, key, value);
+					} catch (IllegalAccessException | InvocationTargetException e) {
+						throw new RuntimeException(e);
+					}
+				});
 				return customerDTO;
 			}).collect(Collectors.toList());
 		}
