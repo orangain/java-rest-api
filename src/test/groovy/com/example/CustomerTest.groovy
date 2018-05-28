@@ -1,10 +1,7 @@
 package com.example;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response
 
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
@@ -25,11 +22,22 @@ public class CustomerTest extends JerseyTest {
 	@Test
 	public void testCustomers() {
 		final Response response = target("customers").request().get();
-		assertEquals(200, response.getStatus());
+		assert response.getStatus() == 200
 
 		def slurper = new JsonSlurper()
 		def items = slurper.parseText(response.readEntity(String.class))
-		assertTrue(items instanceof ArrayList)
-		assertEquals(599, items.size())
+		assert items instanceof ArrayList
+		assert items.size() == 599
+		assert items[0] == [
+			customerId: 1,
+			storeId: 1,
+			firstName: "MARY",
+			lastName: "SMITH",
+			email: "MARY.SMITH@sakilacustomer.org",
+			addressId: 5,
+			active: true,
+			createDate: "2006-02-15T07:04:36",
+			lastUpdate: "2006-02-15T13:57:20",
+		]
 	}
 }
