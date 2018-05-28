@@ -29,9 +29,9 @@ public class CustomerResource {
 		return application.openSession();
 	}
 
-	private Customer doGetCustomer(SqlSession session, int id) {
+	private Customer doGetCustomer(SqlSession session, int customerId) {
 		final CustomerParameter parameter = new CustomerParameter();
-		parameter.setCustomerId(id);
+		parameter.setCustomerId(customerId);
 		return session.selectOne("com.example.selectCustomer", parameter);
 	}
 
@@ -44,11 +44,11 @@ public class CustomerResource {
 	}
 
 	@GET
-	@Path("{id}")
+	@Path("{customerId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Customer getCustomer(@PathParam("id") int id) {
+	public Customer getCustomer(@PathParam("customerId") int customerId) {
 		try (SqlSession session = this.openSession()) {
-			return this.doGetCustomer(session, id);
+			return this.doGetCustomer(session, customerId);
 		}
 	}
 
