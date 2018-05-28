@@ -13,7 +13,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import com.example.ApiApplication;
-import com.example.dto.CustomerDTO;
+import com.example.dto.Customer;
 
 @Path("customers")
 public class CustomerResource {
@@ -22,7 +22,7 @@ public class CustomerResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<CustomerDTO> getCustomers() {
+	public List<Customer> getCustomers() {
 		ApiApplication application = (ApiApplication) ((ResourceConfig) this.application).getApplication();
 
 		try (SqlSession session = application.openSession()) {

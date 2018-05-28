@@ -2,7 +2,7 @@ package com.example.dto;
 
 import java.time.LocalDateTime;
 
-public class CustomerDTO {
+public class Customer {
 	private int customerId;
 	private int storeId;
 	private String firstName;
