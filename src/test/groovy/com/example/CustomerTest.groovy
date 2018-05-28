@@ -1,7 +1,7 @@
 package com.example;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
-import javax.ws.rs.core.Response
 
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class CustomerTest extends JerseyTest {
 
 	@Test
 	public void testCustomers() {
-		final Response response = target("customers").request().get();
+		def response = target("customers").request().get();
 		assert response.getStatus() == 200
 
 		def slurper = new JsonSlurper()
@@ -46,5 +46,23 @@ public class CustomerTest extends JerseyTest {
 			createDate: "2006-02-15T07:04:36",
 			lastUpdate: "2006-02-15T13:57:20",
 		]
+	}
+
+	@Test
+	public void testCreateCustomer() {
+		//		def builder = new JsonBuilder()
+		def customer = [
+			storeId: 1,
+			firstName: "JANE",
+			lastName: "DOE",
+			email: "JANE.DOE@sakilacustomer.org",
+			address: [
+				addressId: 1,
+			],
+		]
+		def customerJson = new JsonBuilder(customer).toString();
+		System.out.println(customerJson)
+		def response = target("customers").request().post(Entity.json(customerJson));
+		assert response.getStatus() == 200
 	}
 }

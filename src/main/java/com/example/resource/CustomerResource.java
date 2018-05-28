@@ -3,7 +3,9 @@ package com.example.resource;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
@@ -20,13 +22,28 @@ public class CustomerResource {
 	@Inject
 	Application application;
 
+	private SqlSession openSession() {
+		ApiApplication application = (ApiApplication) ((ResourceConfig) this.application).getApplication();
+		return application.openSession();
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Customer> getCustomers() {
-		ApiApplication application = (ApiApplication) ((ResourceConfig) this.application).getApplication();
+		try (SqlSession session = this.openSession()) {
+			return session.selectList("com.example.selectCustomer");
+		}
+	}
 
-		try (SqlSession session = application.openSession()) {
-			return session.selectList("com.example.customerSelect");
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Customer createCustomer(Customer customer) {
+		try (SqlSession session = this.openSession()) {
+			int numAffected = session.insert("com.example.insertCustomer", customer);
+			if (numAffected == 0) {
+				throw new RuntimeException("Failed to insert");
+			}
+			return customer;
 		}
 	}
 }

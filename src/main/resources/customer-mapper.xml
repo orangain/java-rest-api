@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example">
-	<select id="customerSelect" resultMap="customerResultMap">
+	<select id="selectCustomer" resultMap="customerResultMap">
 		SELECT
 			customer_id,
 			store_id,
@@ -29,7 +29,8 @@
 		<result property="active" column="active" />
 		<result property="createDate" column="create_date" />
 		<result property="lastUpdate" column="customer_last_update" />
-		<association property="address" javaType="com.example.dto.Address">
+		<association property="address"
+			javaType="com.example.dto.Address">
 			<id property="addressId" column="address_id" />
 			<result property="address" column="address" />
 			<result property="address2" column="address2" />
@@ -37,4 +38,12 @@
 			<result property="lastUpdate" column="address_last_update" />
 		</association>
 	</resultMap>
+	<insert id="insertCustomer"
+		parameterType="com.example.dto.Customer" keyProperty="customerId"
+		useGeneratedKeys="true">
+		INSERT INTO customer
+			(store_id, first_name, last_name, email, address_id, active, create_date, last_update)
+		VALUES
+			(#{storeId}, #{firstName}, #{lastName}, #{email}, #{address.addressId}, #{active}, #{createDate}, #{lastUpdate})
+	</insert>
 </mapper>
