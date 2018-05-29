@@ -1,22 +1,15 @@
 package com.example;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Application;
-
-import org.glassfish.jersey.test.JerseyTest;
+import org.junit.BeforeClass
 import org.junit.Test;
 
 import groovy.json.*;
 
-public class CustomerTest extends JerseyTest {
+public class CustomerReadOnlyTest extends ApiTestBase {
 
-	@Override
-	protected Application configure() {
-		try {
-			return new ApiApplication();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
+	@BeforeClass
+	public static void setupClass() {
+		ApiTestBase.resetDB();
 	}
 
 	@Test
@@ -70,23 +63,5 @@ public class CustomerTest extends JerseyTest {
 			createDate: "2006-02-15T07:04:36",
 			lastUpdate: "2006-02-15T13:57:20",
 		]
-	}
-
-	@Test
-	public void testCreateCustomer() {
-		//		def builder = new JsonBuilder()
-		def customer = [
-			storeId: 1,
-			firstName: "JANE",
-			lastName: "DOE",
-			email: "JANE.DOE@sakilacustomer.org",
-			address: [
-				addressId: 1,
-			],
-		]
-		def customerJson = new JsonBuilder(customer).toString();
-		System.out.println(customerJson)
-		def response = target("customers").request().post(Entity.json(customerJson));
-		assert response.getStatus() == 200
 	}
 }

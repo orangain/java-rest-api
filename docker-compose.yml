@@ -8,5 +8,5 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./data/sakila-schema.sql:/docker-entrypoint-initdb.d/01-sakila-schema.sql
-      - ./data/sakila-data.sql:/docker-entrypoint-initdb.d/02-sakila-data.sql
+      - ./src/test/resources/sql/sakila-schema.sql:/docker-entrypoint-initdb.d/01-sakila-schema.sql
+      - ./src/test/resources/sql/sakila-data.sql:/docker-entrypoint-initdb.d/02-sakila-data.sql
