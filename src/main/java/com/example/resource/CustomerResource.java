@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,6 +15,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
@@ -87,6 +89,22 @@ public class CustomerResource {
 			URI location = builder.path(Integer.toString(createdCustomerId)).build();
 
 			return Response.created(location).entity(createdCustomer).build();
+		}
+	}
+
+	@DELETE
+	@Path("{customerId}")
+	public Response deleteCustomer(@PathParam("customerId") int customerId) {
+		try (SqlSession session = this.openSession()) {
+			final CustomerParameter parameter = new CustomerParameter();
+			parameter.setCustomerId(customerId);
+			int numAffected = session.delete("com.example.deleteCustomer", parameter);
+			if (numAffected == 0) {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+
+			session.commit();
+			return Response.noContent().build();
 		}
 	}
 }

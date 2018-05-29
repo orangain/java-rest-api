@@ -51,4 +51,7 @@
 		VALUES
 			(#{storeId}, #{firstName}, #{lastName}, #{email}, #{address.addressId}, #{active}, #{createDate}, #{lastUpdate})
 	</insert>
+	<delete id="deleteCustomer" parameterType="com.example.dto.Customer">
+		DELETE FROM customer WHERE customer_id = #{customerId} LIMIT 1
+	</delete>
 </mapper>

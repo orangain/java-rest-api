@@ -51,4 +51,27 @@ public class CustomerReadWriteTest extends ApiTestBase {
 
 		assert createDate == lastUpdate
 	}
+
+	@Test
+	public void testDeleteCustomer() {
+		def customer = [
+			storeId: 1,
+			firstName: "JANE",
+			lastName: "DOE",
+			email: "JANE.DOE@sakilacustomer.org",
+			address: [
+				addressId: 1,
+			],
+		]
+		assert target("customers").request().post(this.buildJsonEntity(customer)).getStatus() == 201;
+
+		// Check that item exists before deleting
+		assert target("customers/600").request().get().getStatus() == 200
+
+		def response = target("customers/600").request().delete();
+		assert response.getStatus() == 204
+
+		// Check that item does not exists after deleting
+		assert target("customers/600").request().get().getStatus() == 404
+	}
 }
