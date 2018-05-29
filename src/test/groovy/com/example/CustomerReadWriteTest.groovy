@@ -32,7 +32,7 @@ public class CustomerReadWriteTest extends ApiTestBase {
 		assert response.getHeaderString("Content-Type") == "application/json"
 		assert response.getHeaderString("Location") == "http://localhost:9998/customers/600"
 
-		def item = new JsonSlurper().parseText(response.readEntity(String.class))
+		def item = this.parseJsonResponse(response)
 		def createDate = item.remove("createDate")
 		def lastUpdate = item.remove("lastUpdate")
 

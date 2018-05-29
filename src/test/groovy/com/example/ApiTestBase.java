@@ -6,9 +6,11 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.test.JerseyTest;
 
+import groovy.json.JsonSlurper;
 import groovy.sql.Sql;
 
 public class ApiTestBase extends JerseyTest {
@@ -55,5 +57,12 @@ public class ApiTestBase extends JerseyTest {
 		properties.setProperty("allowMultiQueries", "true");
 
 		return Sql.newInstance(url, properties);
+	}
+
+	protected JsonSlurper jsonSlurper = new JsonSlurper();
+
+	protected Object parseJsonResponse(Response response) {
+		String jsonText = response.readEntity(String.class);
+		return this.jsonSlurper.parseText(jsonText);
 	}
 }

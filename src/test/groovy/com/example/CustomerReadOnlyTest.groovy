@@ -18,7 +18,7 @@ public class CustomerReadOnlyTest extends ApiTestBase {
 		assert response.getStatus() == 200
 		assert response.getHeaderString("Content-Type") == "application/json"
 
-		def items = new JsonSlurper().parseText(response.readEntity(String.class))
+		def items = this.parseJsonResponse(response)
 		assert items instanceof ArrayList
 		assert items.size() == 599
 		def item = items[0]
@@ -47,7 +47,7 @@ public class CustomerReadOnlyTest extends ApiTestBase {
 		assert response.getStatus() == 200
 		assert response.getHeaderString("Content-Type") == "application/json"
 
-		def item = new JsonSlurper().parseText(response.readEntity(String.class))
+		def item = this.parseJsonResponse(response)
 		assert item == [
 			customerId: 1,
 			storeId: 1,
