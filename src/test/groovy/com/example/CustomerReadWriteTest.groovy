@@ -1,7 +1,5 @@
 package com.example;
 
-import javax.ws.rs.client.Entity;
-
 import org.junit.Before
 import org.junit.Test;
 
@@ -25,9 +23,8 @@ public class CustomerReadWriteTest extends ApiTestBase {
 				addressId: 1,
 			],
 		]
-		def customerJson = new JsonBuilder(customer).toString();
 
-		def response = target("customers").request().post(Entity.json(customerJson));
+		def response = target("customers").request().post(this.buildJsonEntity(customer));
 		assert response.getStatus() == 201
 		assert response.getHeaderString("Content-Type") == "application/json"
 		assert response.getHeaderString("Location") == "http://localhost:9998/customers/600"

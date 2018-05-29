@@ -5,11 +5,13 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Scanner;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.test.JerseyTest;
 
+import groovy.json.JsonOutput;
 import groovy.json.JsonSlurper;
 import groovy.sql.Sql;
 
@@ -64,5 +66,9 @@ public class ApiTestBase extends JerseyTest {
 	protected Object parseJsonResponse(Response response) {
 		String jsonText = response.readEntity(String.class);
 		return this.jsonSlurper.parseText(jsonText);
+	}
+
+	protected Entity<String> buildJsonEntity(Object object) {
+		return Entity.json(JsonOutput.toJson(object));
 	}
 }
