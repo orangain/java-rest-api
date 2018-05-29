@@ -69,15 +69,22 @@ public class CustomerResource {
 		try (SqlSession session = this.openSession()) {
 			int numAffected = session.insert("com.example.insertCustomer", customer);
 			if (numAffected == 0) {
-				throw new RuntimeException("Failed to insert");
+				return Response.serverError().entity("Failed to insert").build();
 			}
-			int id = customer.getCustomerId();
+			session.commit();
+		}
 
-			Customer createdCustomer = this.doGetCustomer(session, id);
+		int createdCustomerId = customer.getCustomerId();
+		// Ensure to return committed result
+		try (SqlSession session = this.openSession()) {
+			Customer createdCustomer = this.doGetCustomer(session, createdCustomerId);
+			if (createdCustomer == null) {
+				return Response.serverError().entity("Something wrong").build();
+			}
 
 			// See: https://stackoverflow.com/a/26094619
 			UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-			URI location = builder.path(Integer.toString(id)).build();
+			URI location = builder.path(Integer.toString(createdCustomerId)).build();
 
 			return Response.created(location).entity(createdCustomer).build();
 		}
