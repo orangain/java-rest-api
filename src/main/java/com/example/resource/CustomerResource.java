@@ -51,9 +51,14 @@ public class CustomerResource {
 	@GET
 	@Path("{customerId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Customer getCustomer(@PathParam("customerId") int customerId) {
+	public Response getCustomer(@PathParam("customerId") int customerId) {
 		try (SqlSession session = this.openSession()) {
-			return this.doGetCustomer(session, customerId);
+			Customer customer = this.doGetCustomer(session, customerId);
+			if (customer == null) {
+				return Response.status(Status.NOT_FOUND).build();
+			}
+
+			return Response.ok(customer).build();
 		}
 	}
 

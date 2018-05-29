@@ -66,4 +66,10 @@ public class CustomerReadOnlyTest extends ApiTestBase {
 			lastUpdate: "2006-02-15T13:57:20",
 		]
 	}
+
+	@Test
+	public void testGetCustomerNotFound() {
+		def response = target("customers/1000").request().get();
+		assert response.getStatus() == 404
+	}
 }
