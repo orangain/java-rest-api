@@ -2,6 +2,11 @@ package com.example.dto;
 
 import java.time.LocalDateTime;
 
+import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
+
+// Mark nillable = true by default.
+// See: https://bugs.eclipse.org/bugs/show_bug.cgi?id=368547
+@XmlElementNillable(nillable = true)
 public class Address {
 	private int addressId;
 	private String address;

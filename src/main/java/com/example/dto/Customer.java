@@ -2,6 +2,9 @@ package com.example.dto;
 
 import java.time.LocalDateTime;
 
+import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
+
+@XmlElementNillable(nillable = true)
 public class Customer {
 	private int customerId;
 	private int storeId;

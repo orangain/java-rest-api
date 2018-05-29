@@ -26,8 +26,30 @@ public class CustomerReadWriteTest extends ApiTestBase {
 			],
 		]
 		def customerJson = new JsonBuilder(customer).toString();
-		System.out.println(customerJson)
+
 		def response = target("customers").request().post(Entity.json(customerJson));
 		assert response.getStatus() == 200
+
+		def item = new JsonSlurper().parseText(response.readEntity(String.class))
+		def createDate = item.remove("createDate")
+		def lastUpdate = item.remove("lastUpdate")
+
+		assert item == [
+			customerId: 600,
+			storeId: 1,
+			firstName: "JANE",
+			lastName: "DOE",
+			email: "JANE.DOE@sakilacustomer.org",
+			address: [
+				addressId: 1,
+				address: "47 MySakila Drive",
+				address2: null,
+				district: "Alberta",
+				lastUpdate: "2014-09-26T07:30:27",
+			],
+			active: false,
+		]
+
+		assert createDate == lastUpdate
 	}
 }
