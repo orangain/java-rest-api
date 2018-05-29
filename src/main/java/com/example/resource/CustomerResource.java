@@ -1,5 +1,6 @@
 package com.example.resource;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,7 +11,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.ibatis.session.SqlSession;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -55,14 +60,21 @@ public class CustomerResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Customer createCustomer(Customer customer) {
+	public Response createCustomer(Customer customer, @Context UriInfo uriInfo) {
 		try (SqlSession session = this.openSession()) {
 			int numAffected = session.insert("com.example.insertCustomer", customer);
 			if (numAffected == 0) {
 				throw new RuntimeException("Failed to insert");
 			}
+			int id = customer.getCustomerId();
 
-			return this.doGetCustomer(session, customer.getCustomerId());
+			Customer createdCustomer = this.doGetCustomer(session, id);
+
+			// See: https://stackoverflow.com/a/26094619
+			UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+			URI location = builder.path(Integer.toString(id)).build();
+
+			return Response.created(location).entity(createdCustomer).build();
 		}
 	}
 }

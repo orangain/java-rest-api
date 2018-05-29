@@ -28,7 +28,8 @@ public class CustomerReadWriteTest extends ApiTestBase {
 		def customerJson = new JsonBuilder(customer).toString();
 
 		def response = target("customers").request().post(Entity.json(customerJson));
-		assert response.getStatus() == 200
+		assert response.getStatus() == 201
+		assert response.getHeaderString("Location") == "http://localhost:9998/customers/600"
 
 		def item = new JsonSlurper().parseText(response.readEntity(String.class))
 		def createDate = item.remove("createDate")
