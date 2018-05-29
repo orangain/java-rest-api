@@ -13,6 +13,14 @@ public class CustomerParameter {
 	private LocalDateTime createDate;
 	private LocalDateTime lastUpdate;
 
+	public CustomerParameter() {
+
+	}
+
+	public CustomerParameter(int customerId) {
+		this.customerId = customerId;
+	}
+
 	public int getCustomerId() {
 		return customerId;
 	}
