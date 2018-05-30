@@ -25,7 +25,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import com.example.ApiApplication;
 import com.example.dto.Customer;
-import com.example.parameter.CustomerParameter;
 
 @Path("customers")
 public class CustomerResource {
@@ -38,7 +37,7 @@ public class CustomerResource {
 	}
 
 	private Customer doGetCustomer(SqlSession session, int customerId) {
-		final CustomerParameter parameter = new CustomerParameter(customerId);
+		final Customer parameter = new Customer(customerId);
 		return session.selectOne("com.example.selectCustomer", parameter);
 	}
 
@@ -122,7 +121,7 @@ public class CustomerResource {
 	@Path("{customerId}")
 	public Response deleteCustomer(@PathParam("customerId") int customerId) {
 		try (SqlSession session = this.openSession()) {
-			final CustomerParameter parameter = new CustomerParameter(customerId);
+			final Customer parameter = new Customer(customerId);
 			int numAffected = session.delete("com.example.deleteCustomer", parameter);
 			if (numAffected == 0) {
 				return Response.status(Status.NOT_FOUND).build();

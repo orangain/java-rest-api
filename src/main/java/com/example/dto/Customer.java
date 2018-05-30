@@ -16,6 +16,14 @@ public class Customer {
 	private LocalDateTime createDate;
 	private LocalDateTime lastUpdate;
 
+	public Customer() {
+
+	}
+
+	public Customer(int customerId) {
+		this.customerId = customerId;
+	}
+
 	public int getCustomerId() {
 		return customerId;
 	}
