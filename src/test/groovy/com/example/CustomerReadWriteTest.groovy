@@ -22,6 +22,7 @@ public class CustomerReadWriteTest extends ApiTestBase {
 			address: [
 				addressId: 1,
 			],
+			active: true,
 		]
 
 		def response = target("customers").request().post(this.buildJsonEntity(customer));
@@ -46,7 +47,7 @@ public class CustomerReadWriteTest extends ApiTestBase {
 				district: "Alberta",
 				lastUpdate: "2014-09-26T07:30:27",
 			],
-			active: false,
+			active: true,
 		]
 
 		assert createDate == lastUpdate
@@ -54,6 +55,35 @@ public class CustomerReadWriteTest extends ApiTestBase {
 
 	@Test
 	public void testUpdateCustomer() {
+		def changes = [
+			firstName: "ALICE",
+		]
+		def response = target("customers/1").request().method("PATCH", this.buildJsonEntity(changes));
+		assert response.getStatus() == 200
+		assert response.getHeaderString("Content-Type") == "application/json"
+
+		def item = this.parseJsonResponse(response)
+		def lastUpdate = item.remove("lastUpdate")
+		assert item == [
+			customerId: 1,
+			storeId: 1,
+			firstName: "ALICE",
+			lastName: "SMITH",
+			email: "MARY.SMITH@sakilacustomer.org",
+			address: [
+				addressId: 5,
+				address: "1913 Hanoi Way",
+				address2: "",
+				district: "Nagasaki",
+				lastUpdate: "2014-09-26T07:31:53",
+			],
+			active: true,
+			createDate: "2006-02-15T07:04:36",
+		]
+	}
+
+	@Test
+	public void testUpdateCustomerMoreFields() {
 		def changes = [
 			storeId: 2,
 			firstName: "ALICE",
@@ -96,6 +126,7 @@ public class CustomerReadWriteTest extends ApiTestBase {
 			address: [
 				addressId: 1,
 			],
+			active: true,
 		]
 		assert target("customers").request().post(this.buildJsonEntity(customer)).getStatus() == 201;
 

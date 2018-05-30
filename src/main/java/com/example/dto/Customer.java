@@ -6,13 +6,17 @@ import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
 
 @XmlElementNillable(nillable = true)
 public class Customer {
-	private int customerId;
-	private int storeId;
+	// All the properties must be a non-primitive type because this object is also
+	// used to represent subset of JSON.For example, PATCH /customers/1 with body
+	// {"firstName": "ALICE"} is a valid request. To represent this JSON, all the
+	// properties except for firstName should be null not 0 or false.
+	private Integer customerId;
+	private Integer storeId;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private Address address;
-	private boolean active;
+	private Boolean active;
 	private LocalDateTime createDate;
 	private LocalDateTime lastUpdate;
 
@@ -20,23 +24,23 @@ public class Customer {
 
 	}
 
-	public Customer(int customerId) {
+	public Customer(Integer customerId) {
 		this.customerId = customerId;
 	}
 
-	public int getCustomerId() {
+	public Integer getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(int id) {
+	public void setCustomerId(Integer id) {
 		this.customerId = id;
 	}
 
-	public int getStoreId() {
+	public Integer getStoreId() {
 		return storeId;
 	}
 
-	public void setStoreId(int storeId) {
+	public void setStoreId(Integer storeId) {
 		this.storeId = storeId;
 	}
 
@@ -72,11 +76,11 @@ public class Customer {
 		this.address = address;
 	}
 
-	public boolean isActive() {
+	public Boolean isActive() {
 		return active;
 	}
 
-	public void setActive(boolean active) {
+	public void setActive(Boolean active) {
 		this.active = active;
 	}
 
