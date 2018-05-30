@@ -25,6 +25,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import com.example.ApiApplication;
 import com.example.dto.Customer;
+import com.example.mapper.CustomerMapper;
 
 @Path("customers")
 public class CustomerResource {
@@ -36,16 +37,12 @@ public class CustomerResource {
 		return application.openSession();
 	}
 
-	private Customer doGetCustomer(SqlSession session, int customerId) {
-		final Customer parameter = new Customer(customerId);
-		return session.selectOne("com.example.selectCustomer", parameter);
-	}
-
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Customer> getCustomers() {
 		try (SqlSession session = this.openSession()) {
-			return session.selectList("com.example.selectCustomer");
+			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
+			return mapper.selectCustomer();
 		}
 	}
 
@@ -54,7 +51,8 @@ public class CustomerResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getCustomer(@PathParam("customerId") int customerId) {
 		try (SqlSession session = this.openSession()) {
-			Customer customer = this.doGetCustomer(session, customerId);
+			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
+			Customer customer = mapper.selectCustomer(customerId);
 			if (customer == null) {
 				return Response.status(Status.NOT_FOUND).build();
 			}
@@ -68,7 +66,8 @@ public class CustomerResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createCustomer(Customer customer, @Context UriInfo uriInfo) {
 		try (SqlSession session = this.openSession()) {
-			int numAffected = session.insert("com.example.insertCustomer", customer);
+			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
+			int numAffected = mapper.insertCustomer(customer);
 			if (numAffected == 0) {
 				return Response.serverError().entity("Failed to insert").build();
 			}
@@ -78,7 +77,8 @@ public class CustomerResource {
 		int createdCustomerId = customer.getCustomerId();
 		// Ensure to return committed result
 		try (SqlSession session = this.openSession()) {
-			Customer createdCustomer = this.doGetCustomer(session, createdCustomerId);
+			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
+			Customer createdCustomer = mapper.selectCustomer(createdCustomerId);
 			if (createdCustomer == null) {
 				return Response.serverError().entity("Something wrong").build();
 			}
@@ -95,10 +95,11 @@ public class CustomerResource {
 	@Path("{customerId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updateCustomer(Customer customer, @PathParam("customerId") int customerId) {
+	public Response updateCustomer(Customer changes, @PathParam("customerId") int customerId) {
 		try (SqlSession session = this.openSession()) {
-			customer.setCustomerId(customerId);
-			int numAffected = session.update("com.example.updateCustomer", customer);
+			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
+			changes.setCustomerId(customerId);
+			int numAffected = mapper.updateCustomer(changes);
 			if (numAffected == 0) {
 				return Response.serverError().entity("Failed to update").build();
 			}
@@ -108,7 +109,8 @@ public class CustomerResource {
 
 		// Ensure to return committed result
 		try (SqlSession session = this.openSession()) {
-			Customer updatedCustomer = this.doGetCustomer(session, customerId);
+			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
+			Customer updatedCustomer = mapper.selectCustomer(customerId);
 			if (updatedCustomer == null) {
 				return Response.serverError().entity("Something wrong").build();
 			}
@@ -121,8 +123,8 @@ public class CustomerResource {
 	@Path("{customerId}")
 	public Response deleteCustomer(@PathParam("customerId") int customerId) {
 		try (SqlSession session = this.openSession()) {
-			final Customer parameter = new Customer(customerId);
-			int numAffected = session.delete("com.example.deleteCustomer", parameter);
+			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
+			int numAffected = mapper.deleteCustomer(customerId);
 			if (numAffected == 0) {
 				return Response.status(Status.NOT_FOUND).build();
 			}
