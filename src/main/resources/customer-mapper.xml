@@ -24,6 +24,7 @@
 			</if>
 	    </where>
 	</select>
+
 	<resultMap id="customerResultMap"
 		type="com.example.dto.Customer">
 		<id property="customerId" column="customer_id" />
@@ -43,14 +44,33 @@
 			<result property="lastUpdate" column="address_last_update" />
 		</association>
 	</resultMap>
-	<insert id="insertCustomer"
-		parameterType="com.example.dto.Customer" keyProperty="customerId"
+	
+	<insert id="insertCustomer" parameterType="com.example.dto.Customer" keyProperty="customerId"
 		useGeneratedKeys="true">
 		INSERT INTO customer
 			(store_id, first_name, last_name, email, address_id, active, create_date, last_update)
 		VALUES
 			(#{storeId}, #{firstName}, #{lastName}, #{email}, #{address.addressId}, #{active}, #{createDate}, #{lastUpdate})
 	</insert>
+
+	<update id="updateCustomer" parameterType="com.example.dto.Customer" keyProperty="customerId">
+		UPDATE customer
+		<set>
+			<if test="storeId != null">store_id = #{storeId},</if>
+			<if test="firstName != null">first_name = #{firstName},</if>
+			<if test="lastName != null">last_name = #{lastName},</if>
+			<if test="email != null">email = #{email},</if>
+			<if test="address != null &amp;&amp; address.addressId != null">address_id = #{address.addressId},</if>
+			<if test="active != null">active = #{active},</if>
+			<if test="createDate != null">create_date = #{createDate},</if>
+			<if test="lastUpdate != null">last_update = #{lastUpdate},</if>
+		</set>
+		<where>
+			customer_id = #{customerId}
+		</where>
+		LIMIT 1
+	</update>
+
 	<delete id="deleteCustomer" parameterType="com.example.dto.Customer">
 		DELETE FROM customer WHERE customer_id = #{customerId} LIMIT 1
 	</delete>

@@ -9,6 +9,8 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import org.glassfish.jersey.test.JerseyTest;
 
 import groovy.json.JsonOutput;
@@ -24,6 +26,12 @@ public class ApiTestBase extends JerseyTest {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	protected void configureClient(final ClientConfig config) {
+		// Allow changing HTTP method to use PATCH.
+		config.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
 	}
 
 	private static Sql sqlInstance;

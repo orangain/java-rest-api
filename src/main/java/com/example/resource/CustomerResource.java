@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -88,6 +89,32 @@ public class CustomerResource {
 			URI location = builder.path(Integer.toString(createdCustomerId)).build();
 
 			return Response.created(location).entity(createdCustomer).build();
+		}
+	}
+
+	@PATCH
+	@Path("{customerId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateCustomer(Customer customer, @PathParam("customerId") int customerId) {
+		try (SqlSession session = this.openSession()) {
+			customer.setCustomerId(customerId);
+			int numAffected = session.update("com.example.updateCustomer", customer);
+			if (numAffected == 0) {
+				return Response.serverError().entity("Failed to update").build();
+			}
+
+			session.commit();
+		}
+
+		// Ensure to return committed result
+		try (SqlSession session = this.openSession()) {
+			Customer updatedCustomer = this.doGetCustomer(session, customerId);
+			if (updatedCustomer == null) {
+				return Response.serverError().entity("Something wrong").build();
+			}
+
+			return Response.ok(updatedCustomer).build();
 		}
 	}
 
