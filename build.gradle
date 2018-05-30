@@ -38,5 +38,5 @@ dependencies {
 }
 
 test {
-	environment "DATABASE_URL", "jdbc:mysql://root:password@localhost/sakila"
+	environment "DATABASE_URL", "jdbc:mysql://root:password@localhost/sakila?useSSL=false"
 }
