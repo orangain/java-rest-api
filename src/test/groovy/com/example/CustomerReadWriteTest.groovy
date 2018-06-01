@@ -48,6 +48,7 @@ public class CustomerReadWriteTest extends ApiTestBase {
 				lastUpdate: "2014-09-26T07:30:27",
 			],
 			active: true,
+			rentals: [],
 		]
 
 		assert createDate == lastUpdate
@@ -64,6 +65,7 @@ public class CustomerReadWriteTest extends ApiTestBase {
 
 		def item = this.parseJsonResponse(response)
 		def lastUpdate = item.remove("lastUpdate")
+		def rentals = item.remove("rentals")
 		assert item == [
 			customerId: 1,
 			storeId: 1,
@@ -80,6 +82,7 @@ public class CustomerReadWriteTest extends ApiTestBase {
 			active: true,
 			createDate: "2006-02-15T07:04:36",
 		]
+		assert rentals.size() == 32
 	}
 
 	@Test
@@ -98,6 +101,7 @@ public class CustomerReadWriteTest extends ApiTestBase {
 
 		def item = this.parseJsonResponse(response)
 		def lastUpdate = item.remove("lastUpdate")
+		def rentals = item.remove("rentals")
 		assert item == [
 			customerId: 1,
 			storeId: 2,
@@ -114,6 +118,7 @@ public class CustomerReadWriteTest extends ApiTestBase {
 			active: false,
 			createDate: "2006-02-15T07:04:36",
 		]
+		assert rentals.size() == 32
 	}
 
 	@Test

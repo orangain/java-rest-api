@@ -1,6 +1,7 @@
 package com.example.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
 
@@ -19,6 +20,7 @@ public class Customer {
 	private Boolean active;
 	private LocalDateTime createDate;
 	private LocalDateTime lastUpdate;
+	private List<Rental> rentals;
 
 	public Customer() {
 
@@ -100,10 +102,17 @@ public class Customer {
 		this.lastUpdate = lastUpdate;
 	}
 
+	public List<Rental> getRentals() {
+		return rentals;
+	}
+
+	public void setRentals(List<Rental> rentals) {
+		this.rentals = rentals;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("customerId=%s, firstName=%s, lastName=%s", this.customerId, this.firstName,
 				this.lastName);
 	}
-
 }

@@ -3,26 +3,35 @@
 <mapper namespace="com.example.mapper.CustomerMapper">
 	<select id="selectCustomer" parameterType="com.example.dto.Customer" resultMap="customerResultMap">
 		SELECT
-			customer_id,
-			store_id,
-			first_name,
-			last_name,
-			email,
-			active,
-			create_date,
-			customer.last_update AS customer_last_update,
-			address.address_id,
-			address,
-			address2,
-			district,
-			address.last_update AS address_last_update
-		FROM customer
-		LEFT JOIN address ON customer.address_id = address.address_id
+			c.customer_id,
+			c.store_id,
+			c.first_name,
+			c.last_name,
+			c.email,
+			c.active,
+			c.create_date,
+			c.last_update AS customer_last_update,
+			a.address_id,
+			a.address,
+			a.address2,
+			a.district,
+			a.last_update AS address_last_update,
+			r.rental_id,
+			r.rental_date,
+			r.inventory_id,
+			r.customer_id AS rental_customer_id,
+			r.return_date,
+			r.staff_id,
+			r.last_update AS rental_last_update
+		FROM customer AS c
+		LEFT JOIN address AS a ON c.address_id = a.address_id
+		LEFT JOIN rental AS r ON c.customer_id = r.customer_id
 		<where>
 			<if test="customerId != null">
-				AND customer_id = #{customerId}
+				AND c.customer_id = #{customerId}
 			</if>
 	    </where>
+	    ORDER BY c.customer_id, r.rental_id
 	</select>
 
 	<resultMap id="customerResultMap"
@@ -43,6 +52,14 @@
 			<result property="district" column="district" />
 			<result property="lastUpdate" column="address_last_update" />
 		</association>
+		<collection property="rentals" ofType="com.example.dto.Rental">
+			<id property="rentalId" column="rental_id" />
+			<result property="rentalDate" column="rental_date" />
+			<result property="customerId" column="rental_customer_id" />
+			<result property="returnDate" column="return_date" />
+			<result property="staffId" column="staff_id" />
+			<result property="lastUpdate" column="rental_last_update" />
+		</collection>
 	</resultMap>
 	
 	<insert id="insertCustomer" parameterType="com.example.dto.Customer" keyProperty="customerId"

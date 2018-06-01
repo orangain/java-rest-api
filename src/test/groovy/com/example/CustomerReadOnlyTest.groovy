@@ -21,7 +21,9 @@ public class CustomerReadOnlyTest extends ApiTestBase {
 		def items = this.parseJsonResponse(response)
 		assert items instanceof ArrayList
 		assert items.size() == 599
+
 		def item = items[0]
+		def rentals = item.remove("rentals")
 		assert item == [
 			customerId: 1,
 			storeId: 1,
@@ -38,6 +40,17 @@ public class CustomerReadOnlyTest extends ApiTestBase {
 			active: true,
 			createDate: "2006-02-15T07:04:36",
 			lastUpdate: "2006-02-15T13:57:20",
+		]
+
+		assert rentals.size() == 32
+		def rental = rentals[0]
+		assert rental == [
+			customerId:1,
+			lastUpdate:"2006-02-16T06:30:53",
+			rentalDate:"2005-05-25T20:30:37",
+			rentalId:76,
+			returnDate:"2005-06-03T21:00:37",
+			staffId:2
 		]
 	}
 
@@ -48,6 +61,7 @@ public class CustomerReadOnlyTest extends ApiTestBase {
 		assert response.getHeaderString("Content-Type") == "application/json"
 
 		def item = this.parseJsonResponse(response)
+		def rentals = item.remove("rentals")
 		assert item == [
 			customerId: 1,
 			storeId: 1,
@@ -65,6 +79,7 @@ public class CustomerReadOnlyTest extends ApiTestBase {
 			createDate: "2006-02-15T07:04:36",
 			lastUpdate: "2006-02-15T13:57:20",
 		]
+		assert rentals.size() == 32
 	}
 
 	@Test
