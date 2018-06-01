@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.FilmMapper">
+	<select id="selectFilm" parameterType="com.example.dto.Film" resultMap="filmResultMap">
+		SELECT
+			f.film_id,
+			f.title,
+			f.description,
+			f.release_year,
+			f.language_id,
+			f.original_language_id,
+			f.rental_duration,
+			f.rental_rate,
+			f.length,
+			f.replacement_cost,
+			f.rating,
+			f.special_features,
+			f.last_update AS f_last_update,
+			fa.film_id,
+			fa.last_update AS fa_last_update,
+			a.actor_id,
+			a.first_name,
+			a.last_name,
+			a.last_update AS a_last_update
+		FROM film AS f
+		LEFT JOIN film_actor AS fa ON f.film_id = fa.film_id
+		LEFT JOIN actor AS a ON fa.actor_id = a.actor_id
+		<where>
+			<if test="filmId != null">
+				AND f.film_id = #{filmId}
+			</if>
+	    </where>
+	    ORDER BY f.film_id, a.actor_id
+	</select>
+
+	<resultMap id="filmResultMap" type="com.example.dto.Film">
+		<id property="filmId" column="film_id" />
+		<result property="title" column="title" />
+		<result property="description" column="description" />
+		<result property="releaseYear" column="release_year" />
+		<result property="languageId" column="language_id" />
+		<result property="rentalDuration" column="rental_duration" />
+		<result property="rentalRate" column="rental_rate" />
+		<result property="length" column="length" />
+		<result property="replacementCost" column="replacement_cost" />
+		<result property="rating" column="rating" />
+		<result property="specialFeatures" column="special_features" />
+		<result property="lastUpdate" column="f_last_update" />
+		<collection property="actors" ofType="com.example.dto.FilmActor">
+			<id property="filmId" column="film_id" />
+ 			<id column="actor_id" />
+			<result property="lastUpdate" column="fa_last_update" />
+			<association property="actor"
+				javaType="com.example.dto.Actor">
+				<id property="actorId" column="actor_id" />
+				<result property="firstName" column="first_name" />
+				<result property="lastName" column="last_name" />
+				<result property="lastUpdate" column="a_last_update" />
+			</association>
+		</collection>
+	</resultMap>
+	
+	<insert id="insertFilm" parameterType="com.example.dto.Film" keyProperty="filmId"
+		useGeneratedKeys="true">
+		INSERT INTO film
+			(title, description, release_year, language_id, rental_duration, rental_rate,
+			 length, replacement_cost rating, special_features, last_update)
+		VALUES
+			(#{title}, #{description}, #{releaseYear}, #{languageId}, #{rentalDuration}, #{rentalRate},
+			 #{length}, #{replacementCost}, #{rating}, #{specialFeatures}, #{lastUpdate})
+	</insert>
+
+	<update id="updateFilm" parameterType="com.example.dto.Film" keyProperty="filmId">
+		UPDATE film
+		<set>
+			<if test="title != null">title = #{title},</if>
+			<if test="description != null">description = #{description},</if>
+			<if test="releaseYear != null">release_year = #{releaseYear},</if>
+			<if test="languageId != null">language_id = #{languageId},</if>
+			<if test="rentalDuration != null">rental_duration = #{rentalDuration},</if>
+			<if test="rentalRate != null">rental_rate = #{rentalRate},</if>
+			<if test="length != null">length = #{length},</if>
+			<if test="replacementCost != null">replacement_cost = #{replacementCost},</if>
+			<if test="rating != null">rating = #{rating},</if>
+			<if test="specialFeatures != null">special_features = #{specialFeatures},</if>
+			<if test="lastUpdate != null">last_update = #{lastUpdate},</if>
+		</set>
+		<where>
+			film_id = #{filmId}
+		</where>
+		LIMIT 1
+	</update>
+
+	<delete id="deleteFilm" parameterType="com.example.dto.Film">
+		DELETE FROM film WHERE film_id = #{filmId} LIMIT 1
+	</delete>
+</mapper>
