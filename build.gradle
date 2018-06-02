@@ -39,4 +39,9 @@ dependencies {
 
 test {
 	environment "DATABASE_URL", "jdbc:mysql://root:password@localhost/sakila?useSSL=false"
+	testLogging {
+		exceptionFormat 'full'
+		events 'skipped', 'passed', 'failed'
+	}
+
 }
