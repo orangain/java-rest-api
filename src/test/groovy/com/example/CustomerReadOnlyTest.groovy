@@ -45,12 +45,13 @@ public class CustomerReadOnlyTest extends ApiTestBase {
 		assert rentals.size() == 32
 		def rental = rentals[0]
 		assert rental == [
-			customerId:1,
-			lastUpdate:"2006-02-16T06:30:53",
-			rentalDate:"2005-05-25T20:30:37",
 			rentalId:76,
+			rentalDate:"2005-05-25T20:30:37",
+			inventoryId: 3021,
+			customerId:1,
+			staffId:2,
 			returnDate:"2005-06-03T21:00:37",
-			staffId:2
+			lastUpdate:"2006-02-16T06:30:53",
 		]
 	}
 
