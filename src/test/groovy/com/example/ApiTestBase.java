@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.logging.LogManager;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
@@ -21,6 +22,17 @@ public class ApiTestBase extends JerseyTest {
 
 	@Override
 	protected Application configure() {
+		// Configure logging not to print INFO logs.
+		// Note: setting via `systemProperty 'java.util.logging.config.file',
+		// 'logging.properties'` in build.gradle does not work.
+		// See:
+		// https://discuss.gradle.org/t/unable-to-configure-java-util-logging-with-gradle-test-task/2034
+		try {
+			LogManager.getLogManager().readConfiguration(ApiTestBase.class.getResourceAsStream("/logging.properties"));
+		} catch (SecurityException | IOException e) {
+			throw new RuntimeException(e);
+		}
+
 		try {
 			return new ApiApplication();
 		} catch (IOException e) {
