@@ -34,7 +34,7 @@ public class ApiTestBase extends JerseyTest {
 		}
 
 		try {
-			return new ApiApplication();
+			return new ApiTestApplication();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
