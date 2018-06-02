@@ -46,7 +46,7 @@
 		<result property="rating" column="rating" />
 		<result property="specialFeatures" column="special_features" />
 		<result property="lastUpdate" column="f_last_update" />
-		<collection property="actors" ofType="com.example.dto.FilmActor">
+		<collection property="actors" ofType="com.example.dto.FilmActor" notNullColumn="actor_id">
 			<id property="filmId" column="film_id" />
  			<id column="actor_id" />
 			<result property="lastUpdate" column="fa_last_update" />
