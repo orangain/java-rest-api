@@ -17,7 +17,7 @@ public class Film {
 	private Integer rentalDuration;
 	private BigDecimal rentalRate;
 	private Integer length;
-	private Integer replacementCost;
+	private BigDecimal replacementCost;
 	private String rating;
 	private String specialFeatures;
 	private LocalDateTime lastUpdate;
@@ -95,11 +95,11 @@ public class Film {
 		this.length = length;
 	}
 
-	public Integer getReplacementCost() {
+	public BigDecimal getReplacementCost() {
 		return replacementCost;
 	}
 
-	public void setReplacementCost(Integer replacementCost) {
+	public void setReplacementCost(BigDecimal replacementCost) {
 		this.replacementCost = replacementCost;
 	}
 
