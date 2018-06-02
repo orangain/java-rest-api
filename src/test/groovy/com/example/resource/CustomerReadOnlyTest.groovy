@@ -1,7 +1,9 @@
-package com.example;
+package com.example.resource;
 
 import org.junit.BeforeClass
 import org.junit.Test;
+
+import com.example.ApiTestBase
 
 import groovy.json.*;
 
