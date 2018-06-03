@@ -149,7 +149,7 @@ public class FilmReadWriteTest extends ApiTestBase {
 	}
 
 	@Test
-	void testUpdateFilmWithNullValue() {
+	public void testUpdateFilmWithNullValue() {
 		def changes = [
 			releaseYear: null,
 		]
@@ -178,7 +178,7 @@ public class FilmReadWriteTest extends ApiTestBase {
 	}
 
 	@Test
-	void testUpdateFilmActors() {
+	public void testUpdateFilmActors() {
 		def changes = [
 			actors: [
 				[
