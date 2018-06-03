@@ -7,7 +7,7 @@
     </encoder>
   </appender>
 
-  <logger name="com.example.mapper.CustomerMapper" level="DEBUG"/>
+  <logger name="com.example.mapper" level="DEBUG"/>
 
   <root level="INFO">
     <appender-ref ref="STDOUT" />
