@@ -149,6 +149,35 @@ public class FilmReadWriteTest extends ApiTestBase {
 	}
 
 	@Test
+	void testUpdateFilmWithNullValue() {
+		def changes = [
+			releaseYear: null,
+		]
+		def response = target("films/1").request().method("PATCH", this.buildJsonEntity(changes));
+		assert response.getStatus() == 200
+		assert response.getHeaderString("Content-Type") == "application/json"
+
+		def item = this.parseJsonResponse(response)
+		def lastUpdate = item.remove("lastUpdate")
+		def filmActors = item.remove("actors")
+		assert item == [
+			filmId: 1,
+			title: "ACADEMY DINOSAUR",
+			description: "A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies",
+			releaseYear: null,
+			languageId: 1,
+			originalLanguageId: null,
+			rentalDuration: 6,
+			rentalRate: 0.99,
+			length: 86,
+			replacementCost: 20.99,
+			rating: "PG",
+			specialFeatures: "Deleted Scenes,Behind the Scenes",
+		]
+		assert filmActors.size() == 10
+	}
+
+	@Test
 	public void testDeleteFilm() {
 		def film = [
 			title: "Awesome Film",

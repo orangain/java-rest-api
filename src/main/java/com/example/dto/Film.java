@@ -4,10 +4,13 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlTransient;
+
 import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
 
 @XmlElementNillable(nillable = true)
 public class Film {
+	// Normal fields
 	private Integer filmId;
 	private String title;
 	private String description;
@@ -23,6 +26,34 @@ public class Film {
 	private LocalDateTime lastUpdate;
 	private List<FilmActor> actors;
 
+	// Boolean fields to distinguish provided null value from non-provided field
+	// https://stackoverflow.com/questions/38424383/how-to-distinguish-between-null-and-not-provided-values-for-partial-updates-in-s
+	@XmlTransient
+	public boolean isTitleChanged;
+	@XmlTransient
+	public boolean isDescriptionChanged;
+	@XmlTransient
+	public boolean isReleaseYearChanged;
+	@XmlTransient
+	public boolean isOriginalLanguageIdChanged;
+	@XmlTransient
+	public boolean isLanguageIdChanged;
+	@XmlTransient
+	public boolean isRentalDurationChanged;
+	@XmlTransient
+	public boolean isRentalRateChanged;
+	@XmlTransient
+	public boolean isLengthChanged;
+	@XmlTransient
+	public boolean isReplacementCostChanged;
+	@XmlTransient
+	public boolean isRatingChanged;
+	@XmlTransient
+	public boolean isSpecialFeaturesChanged;
+	@XmlTransient
+	public boolean isLastUpdateChanged;
+
+	// Normal properties
 	public Integer getFilmId() {
 		return filmId;
 	}
@@ -37,6 +68,7 @@ public class Film {
 
 	public void setTitle(String title) {
 		this.title = title;
+		this.isTitleChanged = true;
 	}
 
 	public String getDescription() {
@@ -45,6 +77,7 @@ public class Film {
 
 	public void setDescription(String description) {
 		this.description = description;
+		this.isDescriptionChanged = true;
 	}
 
 	public Integer getReleaseYear() {
@@ -53,6 +86,7 @@ public class Film {
 
 	public void setReleaseYear(Integer releaseYear) {
 		this.releaseYear = releaseYear;
+		this.isReleaseYearChanged = true;
 	}
 
 	public Integer getLanguageId() {
@@ -61,6 +95,7 @@ public class Film {
 
 	public void setLanguageId(Integer languageId) {
 		this.languageId = languageId;
+		this.isLanguageIdChanged = true;
 	}
 
 	public Integer getOriginalLanguageId() {
@@ -69,6 +104,7 @@ public class Film {
 
 	public void setOriginalLanguageId(Integer originalLanguageId) {
 		this.originalLanguageId = originalLanguageId;
+		this.isOriginalLanguageIdChanged = true;
 	}
 
 	public Integer getRentalDuration() {
@@ -77,6 +113,7 @@ public class Film {
 
 	public void setRentalDuration(Integer rentalDuration) {
 		this.rentalDuration = rentalDuration;
+		this.isRentalDurationChanged = true;
 	}
 
 	public BigDecimal getRentalRate() {
@@ -85,6 +122,7 @@ public class Film {
 
 	public void setRentalRate(BigDecimal rentalRate) {
 		this.rentalRate = rentalRate;
+		this.isRentalRateChanged = true;
 	}
 
 	public Integer getLength() {
@@ -93,6 +131,7 @@ public class Film {
 
 	public void setLength(Integer length) {
 		this.length = length;
+		this.isLengthChanged = true;
 	}
 
 	public BigDecimal getReplacementCost() {
@@ -101,6 +140,7 @@ public class Film {
 
 	public void setReplacementCost(BigDecimal replacementCost) {
 		this.replacementCost = replacementCost;
+		this.isReplacementCostChanged = true;
 	}
 
 	public String getRating() {
@@ -109,6 +149,7 @@ public class Film {
 
 	public void setRating(String rating) {
 		this.rating = rating;
+		this.isRatingChanged = true;
 	}
 
 	public String getSpecialFeatures() {
@@ -117,6 +158,7 @@ public class Film {
 
 	public void setSpecialFeatures(String specialFeatures) {
 		this.specialFeatures = specialFeatures;
+		this.isSpecialFeaturesChanged = true;
 	}
 
 	public LocalDateTime getLastUpdate() {
@@ -125,6 +167,7 @@ public class Film {
 
 	public void setLastUpdate(LocalDateTime lastUpdate) {
 		this.lastUpdate = lastUpdate;
+		this.isLastUpdateChanged = true;
 	}
 
 	public List<FilmActor> getActors() {
@@ -134,5 +177,4 @@ public class Film {
 	public void setActors(List<FilmActor> actors) {
 		this.actors = actors;
 	}
-
 }
