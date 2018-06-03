@@ -1,6 +1,12 @@
 version: '3'
 
 services:
+  web:
+    build: .
+    environment:
+      JDBC_URL: jdbc:mysql://root:password@mysql/sakila?useSSL=false
+    ports:
+      - 8080:8080
   mysql:
     image: mysql:5.7.22
     environment:
