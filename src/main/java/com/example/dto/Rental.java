@@ -1,18 +1,18 @@
 package com.example.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
 
 @XmlElementNillable(nillable = true)
 public class Rental {
 	private Integer rentalId;
-	private LocalDateTime rentalDate;
+	private OffsetDateTime rentalDate;
 	private Integer inventoryId;
 	private Integer customerId;
-	private LocalDateTime returnDate;
+	private OffsetDateTime returnDate;
 	private Integer staffId;
-	private LocalDateTime lastUpdate;
+	private OffsetDateTime lastUpdate;
 
 	public Integer getRentalId() {
 		return rentalId;
@@ -22,11 +22,11 @@ public class Rental {
 		this.rentalId = rentalId;
 	}
 
-	public LocalDateTime getRentalDate() {
+	public OffsetDateTime getRentalDate() {
 		return rentalDate;
 	}
 
-	public void setRentalDate(LocalDateTime rentalDate) {
+	public void setRentalDate(OffsetDateTime rentalDate) {
 		this.rentalDate = rentalDate;
 	}
 
@@ -46,11 +46,11 @@ public class Rental {
 		this.customerId = customerId;
 	}
 
-	public LocalDateTime getReturnDate() {
+	public OffsetDateTime getReturnDate() {
 		return returnDate;
 	}
 
-	public void setReturnDate(LocalDateTime returnDate) {
+	public void setReturnDate(OffsetDateTime returnDate) {
 		this.returnDate = returnDate;
 	}
 
@@ -62,11 +62,11 @@ public class Rental {
 		this.staffId = staffId;
 	}
 
-	public LocalDateTime getLastUpdate() {
+	public OffsetDateTime getLastUpdate() {
 		return lastUpdate;
 	}
 
-	public void setLastUpdate(LocalDateTime lastUpdate) {
+	public void setLastUpdate(OffsetDateTime lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 }

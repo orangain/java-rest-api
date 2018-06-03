@@ -37,23 +37,23 @@ public class CustomerReadOnlyTest extends ApiTestBase {
 				address: "1913 Hanoi Way",
 				address2: "",
 				district: "Nagasaki",
-				lastUpdate: "2014-09-26T07:31:53",
+				lastUpdate: "2014-09-25T22:31:53Z",
 			],
 			active: true,
-			createDate: "2006-02-15T07:04:36",
-			lastUpdate: "2006-02-15T13:57:20",
+			createDate: "2006-02-14T22:04:36Z",
+			lastUpdate: "2006-02-15T04:57:20Z",
 		]
 
 		assert rentals.size() == 32
 		def rental = rentals[0]
 		assert rental == [
 			rentalId:76,
-			rentalDate:"2005-05-25T20:30:37",
+			rentalDate:"2005-05-25T11:30:37Z",
 			inventoryId: 3021,
 			customerId:1,
 			staffId:2,
-			returnDate:"2005-06-03T21:00:37",
-			lastUpdate:"2006-02-16T06:30:53",
+			returnDate:"2005-06-03T12:00:37Z",
+			lastUpdate:"2006-02-15T21:30:53Z",
 		]
 	}
 
@@ -76,11 +76,11 @@ public class CustomerReadOnlyTest extends ApiTestBase {
 				address: "1913 Hanoi Way",
 				address2: "",
 				district: "Nagasaki",
-				lastUpdate: "2014-09-26T07:31:53",
+				lastUpdate: "2014-09-25T22:31:53Z",
 			],
 			active: true,
-			createDate: "2006-02-15T07:04:36",
-			lastUpdate: "2006-02-15T13:57:20",
+			createDate: "2006-02-14T22:04:36Z",
+			lastUpdate: "2006-02-15T04:57:20Z",
 		]
 		assert rentals.size() == 32
 	}

@@ -39,19 +39,19 @@ public class FilmReadOnlyTest extends ApiTestBase {
 			replacementCost: 20.99,
 			rating: "PG",
 			specialFeatures: "Deleted Scenes,Behind the Scenes",
-			lastUpdate: "2006-02-15T14:03:42",
+			lastUpdate: "2006-02-15T05:03:42Z",
 		]
 
 		assert filmActors.size() == 10
 		def filmActor = filmActors[0]
 		assert filmActor == [
 			filmId:1,
-			lastUpdate:"2006-02-15T14:05:03",
+			lastUpdate:"2006-02-15T05:05:03Z",
 			actor: [
 				actorId: 1,
 				firstName: "PENELOPE",
 				lastName: "GUINESS",
-				lastUpdate: "2006-02-15T13:34:33",
+				lastUpdate: "2006-02-15T04:34:33Z",
 			]
 		]
 	}
@@ -77,7 +77,7 @@ public class FilmReadOnlyTest extends ApiTestBase {
 			replacementCost: 20.99,
 			rating: "PG",
 			specialFeatures: "Deleted Scenes,Behind the Scenes",
-			lastUpdate: "2006-02-15T14:03:42",
+			lastUpdate: "2006-02-15T05:03:42Z",
 		]
 
 		assert filmActors.size() == 10

@@ -1,13 +1,13 @@
 package com.example.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
 
 @XmlElementNillable(nillable = true)
 public class FilmActor {
 	private Integer filmId;
-	private LocalDateTime lastUpdate;
+	private OffsetDateTime lastUpdate;
 	private Actor actor;
 
 	public Integer getFilmId() {
@@ -18,11 +18,11 @@ public class FilmActor {
 		this.filmId = filmId;
 	}
 
-	public LocalDateTime getLastUpdate() {
+	public OffsetDateTime getLastUpdate() {
 		return lastUpdate;
 	}
 
-	public void setLastUpdate(LocalDateTime lastUpdate) {
+	public void setLastUpdate(OffsetDateTime lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 

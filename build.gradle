@@ -11,7 +11,7 @@ apply plugin: 'groovy'
 apply plugin: 'application'
 
 mainClassName = "com.example.Main"
-
+applicationDefaultJvmArgs = ['-Duser.timezone=UTC']
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -39,9 +39,9 @@ dependencies {
 
 test {
 	environment "DATABASE_URL", "jdbc:mysql://root:password@localhost/sakila?useSSL=false"
+	systemProperty 'user.timezone', 'UTC' // Use UTC
 	testLogging {
 		exceptionFormat 'full'
 		events 'skipped', 'passed', 'failed', 'standardError'
 	}
-
 }

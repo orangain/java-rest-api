@@ -47,7 +47,7 @@ public class CustomerReadWriteTest extends ApiTestBase {
 				address: "47 MySakila Drive",
 				address2: null,
 				district: "Alberta",
-				lastUpdate: "2014-09-26T07:30:27",
+				lastUpdate: "2014-09-25T22:30:27Z",
 			],
 			active: true,
 			rentals: [],
@@ -79,10 +79,10 @@ public class CustomerReadWriteTest extends ApiTestBase {
 				address: "1913 Hanoi Way",
 				address2: "",
 				district: "Nagasaki",
-				lastUpdate: "2014-09-26T07:31:53",
+				lastUpdate: "2014-09-25T22:31:53Z",
 			],
 			active: true,
-			createDate: "2006-02-15T07:04:36",
+			createDate: "2006-02-14T22:04:36Z",
 		]
 		assert rentals.size() == 32
 	}
@@ -115,10 +115,10 @@ public class CustomerReadWriteTest extends ApiTestBase {
 				address: "47 MySakila Drive",
 				address2: null,
 				district: "Alberta",
-				lastUpdate: "2014-09-26T07:30:27",
+				lastUpdate: "2014-09-25T22:30:27Z",
 			],
 			active: false,
-			createDate: "2006-02-15T07:04:36",
+			createDate: "2006-02-14T22:04:36Z",
 		]
 		assert rentals.size() == 32
 	}

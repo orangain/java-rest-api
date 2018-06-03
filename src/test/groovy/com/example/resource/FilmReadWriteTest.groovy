@@ -70,7 +70,7 @@ public class FilmReadWriteTest extends ApiTestBase {
 					actorId: 1,
 					firstName: "PENELOPE",
 					lastName: "GUINESS",
-					lastUpdate: "2006-02-15T13:34:33",
+					lastUpdate: "2006-02-15T04:34:33Z",
 				]
 			],
 			[
@@ -80,7 +80,7 @@ public class FilmReadWriteTest extends ApiTestBase {
 					actorId: 10,
 					firstName: "CHRISTIAN",
 					lastName: "GABLE",
-					lastUpdate: "2006-02-15T13:34:33",
+					lastUpdate: "2006-02-15T04:34:33Z",
 				]
 			]
 		]
@@ -206,7 +206,7 @@ public class FilmReadWriteTest extends ApiTestBase {
 					actorId: 1,
 					firstName: "PENELOPE",
 					lastName: "GUINESS",
-					lastUpdate: "2006-02-15T13:34:33",
+					lastUpdate: "2006-02-15T04:34:33Z",
 				]
 			],
 			[
@@ -215,7 +215,7 @@ public class FilmReadWriteTest extends ApiTestBase {
 					actorId: 10,
 					firstName: "CHRISTIAN",
 					lastName: "GABLE",
-					lastUpdate: "2006-02-15T13:34:33",
+					lastUpdate: "2006-02-15T04:34:33Z",
 				]
 			]
 		]

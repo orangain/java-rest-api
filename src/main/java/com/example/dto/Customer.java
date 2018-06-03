@@ -1,6 +1,6 @@
 package com.example.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
@@ -18,8 +18,8 @@ public class Customer {
 	private String email;
 	private Address address;
 	private Boolean active;
-	private LocalDateTime createDate;
-	private LocalDateTime lastUpdate;
+	private OffsetDateTime createDate;
+	private OffsetDateTime lastUpdate;
 	private List<Rental> rentals;
 
 	public Customer() {
@@ -86,19 +86,19 @@ public class Customer {
 		this.active = active;
 	}
 
-	public LocalDateTime getCreateDate() {
+	public OffsetDateTime getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(LocalDateTime createDate) {
+	public void setCreateDate(OffsetDateTime createDate) {
 		this.createDate = createDate;
 	}
 
-	public LocalDateTime getLastUpdate() {
+	public OffsetDateTime getLastUpdate() {
 		return lastUpdate;
 	}
 
-	public void setLastUpdate(LocalDateTime lastUpdate) {
+	public void setLastUpdate(OffsetDateTime lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 

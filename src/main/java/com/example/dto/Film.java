@@ -3,7 +3,7 @@ package com.example.dto;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class Film {
 	private BigDecimal replacementCost;
 	private String rating;
 	private String specialFeatures;
-	private LocalDateTime lastUpdate;
+	private OffsetDateTime lastUpdate;
 	private List<FilmActor> actors;
 
 	// Boolean fields to distinguish provided null value from non-provided field
@@ -164,11 +164,11 @@ public class Film {
 		this.isSpecialFeaturesChanged = true;
 	}
 
-	public LocalDateTime getLastUpdate() {
+	public OffsetDateTime getLastUpdate() {
 		return lastUpdate;
 	}
 
-	public void setLastUpdate(LocalDateTime lastUpdate) {
+	public void setLastUpdate(OffsetDateTime lastUpdate) {
 		this.lastUpdate = lastUpdate;
 		this.isLastUpdateChanged = true;
 	}
