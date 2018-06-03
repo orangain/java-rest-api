@@ -2,6 +2,7 @@ package com.example;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Properties;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -14,8 +15,16 @@ public class ApiApplication extends ResourceConfig {
 	public ApiApplication() throws IOException {
 		packages("com.example.resource");
 
+		Properties properties = new Properties();
+		if (System.getenv("JDBC_DRIVER") != null) {
+			properties.setProperty("JDBC_DRIVER", System.getenv("JDBC_DRIVER"));
+		}
+		if (System.getenv("JDBC_URL") != null) {
+			properties.setProperty("JDBC_URL", System.getenv("JDBC_URL"));
+		}
+
 		try (InputStream in = Main.class.getResourceAsStream("/mybatis-config.xml")) {
-			this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(in);
+			this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(in, properties);
 		}
 	}
 

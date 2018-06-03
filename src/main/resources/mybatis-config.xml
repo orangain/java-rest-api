@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+  <properties>
+    <property name="JDBC_DRIVER" value="com.mysql.cj.jdbc.Driver"/>
+    <property name="JDBC_URL" value="jdbc:mysql://root:password@localhost/sakila?useSSL=false"/>
+  </properties>
   <settings>
     <setting name="mapUnderscoreToCamelCase" value="true"/>
   </settings>
@@ -8,8 +12,8 @@
     <environment id="dev">
       <transactionManager type="JDBC"/>
       <dataSource type="POOLED">
-        <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://root:password@localhost/sakila?useSSL=false"/>
+        <property name="driver" value="${JDBC_DRIVER}"/>
+        <property name="url" value="${JDBC_URL}"/>
       </dataSource>
     </environment>
   </environments>
