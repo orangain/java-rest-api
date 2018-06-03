@@ -178,6 +178,50 @@ public class FilmReadWriteTest extends ApiTestBase {
 	}
 
 	@Test
+	void testUpdateFilmActors() {
+		def changes = [
+			actors: [
+				[
+					actor: [actorId: 1]
+				],
+				[
+					actor: [actorId: 10]
+				]
+			]
+		]
+		def response = target("films/1").request().method("PATCH", this.buildJsonEntity(changes));
+		assert response.getStatus() == 200
+		assert response.getHeaderString("Content-Type") == "application/json"
+
+		def item = this.parseJsonResponse(response)
+		def lastUpdate = item.remove("lastUpdate")
+		def filmActors = item.remove("actors").collect {
+			it.remove("lastUpdate")
+			return it
+		}
+		assert filmActors == [
+			[
+				filmId: 1,
+				actor: [
+					actorId: 1,
+					firstName: "PENELOPE",
+					lastName: "GUINESS",
+					lastUpdate: "2006-02-15T13:34:33",
+				]
+			],
+			[
+				filmId: 1,
+				actor: [
+					actorId: 10,
+					firstName: "CHRISTIAN",
+					lastName: "GABLE",
+					lastUpdate: "2006-02-15T13:34:33",
+				]
+			]
+		]
+	}
+
+	@Test
 	public void testDeleteFilm() {
 		def film = [
 			title: "Awesome Film",

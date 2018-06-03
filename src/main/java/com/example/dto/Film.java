@@ -1,7 +1,10 @@
 package com.example.dto;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlTransient;
@@ -176,5 +179,19 @@ public class Film {
 
 	public void setActors(List<FilmActor> actors) {
 		this.actors = actors;
+	}
+
+	public boolean isAtLeastOneNormalFieldChanged() {
+		Class<? extends Film> c = this.getClass();
+		Field[] fields = c.getDeclaredFields();
+		return Arrays.stream(fields).filter(f -> Modifier.isPublic(f.getModifiers()))
+				.filter(f -> f.getName().matches("^is.+Changed")).filter(f -> f.getType().equals(boolean.class))
+				.anyMatch(f -> {
+					try {
+						return f.getBoolean(this);
+					} catch (IllegalArgumentException | IllegalAccessException e) {
+						throw new RuntimeException(e);
+					}
+				});
 	}
 }

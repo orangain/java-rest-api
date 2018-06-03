@@ -105,4 +105,8 @@
 	<delete id="deleteFilm" parameterType="com.example.dto.Film">
 		DELETE FROM film WHERE film_id = #{filmId} LIMIT 1
 	</delete>
+
+	<delete id="deleteFilmActors">
+		DELETE FROM film_actor WHERE film_id = #{filmId}
+	</delete>
 </mapper>

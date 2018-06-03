@@ -22,6 +22,8 @@ public interface FilmMapper {
 
 	int insertFilmActors(List<FilmActor> filmActors);
 
+	int deleteFilmActors(int filmId);
+
 	default int insertFilmAndCollections(Film film) {
 		// Film
 		int numAffected = this.insertFilm(film);
@@ -34,6 +36,28 @@ public interface FilmMapper {
 		if (film.getActors().size() > 0) {
 			film.getActors().forEach(fa -> fa.setFilmId(generatedId));
 			numAffected += this.insertFilmActors(film.getActors());
+		}
+
+		return numAffected;
+	}
+
+	default int updateFilmAndCollections(Film changes) {
+		int numAffected = 0;
+		// Film
+		if (changes.isAtLeastOneNormalFieldChanged()) {
+			numAffected = this.updateFilm(changes);
+			if (numAffected == 0) {
+				return numAffected; // Failed to insert
+			}
+		}
+
+		// FilmActors: delete and insert
+		if (changes.getActors() != null) {
+			numAffected += this.deleteFilmActors(changes.getFilmId());
+			if (changes.getActors().size() > 0) {
+				changes.getActors().forEach(fa -> fa.setFilmId(changes.getFilmId()));
+				numAffected += this.insertFilmActors(changes.getActors());
+			}
 		}
 
 		return numAffected;

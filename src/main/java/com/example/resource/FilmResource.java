@@ -96,10 +96,10 @@ public class FilmResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateFilm(Film changes, @PathParam("filmId") int filmId) {
+		changes.setFilmId(filmId);
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
-			changes.setFilmId(filmId);
-			int numAffected = mapper.updateFilm(changes);
+			int numAffected = mapper.updateFilmAndCollections(changes);
 			if (numAffected == 0) {
 				return Response.serverError().entity("Failed to update").build();
 			}
