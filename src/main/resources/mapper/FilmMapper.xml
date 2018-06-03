@@ -61,8 +61,7 @@
 		</collection>
 	</resultMap>
 	
-	<insert id="insertFilm" parameterType="com.example.dto.Film" keyProperty="filmId"
-		useGeneratedKeys="true">
+	<insert id="insertFilm" parameterType="com.example.dto.Film" useGeneratedKeys="true" keyProperty="filmId">
 		INSERT INTO film
 			(title, description, release_year, language_id, original_language_id, rental_duration, rental_rate,
 			 length, replacement_cost, rating, special_features, last_update)
@@ -71,16 +70,7 @@
 			 #{length}, #{replacementCost}, #{rating}, #{specialFeatures}, #{lastUpdate})
 	</insert>
 
-	<insert id="insertFilmActors" parameterType="list" useGeneratedKeys="false">
-		INSERT INTO film_actor
-			(film_id, actor_id, last_update)
-		VALUES
-			<foreach item="item" collection="list" separator=",">
-				(#{item.filmId}, #{item.actor.actorId}, #{item.lastUpdate})
-			</foreach>
-	</insert>
-
-	<update id="updateFilm" parameterType="com.example.dto.Film" keyProperty="filmId">
+	<update id="updateFilm" parameterType="com.example.dto.Film">
 		UPDATE film
 		<set>
 			<if test="isTitleChanged">title = #{title},</if>
@@ -102,9 +92,18 @@
 		LIMIT 1
 	</update>
 
-	<delete id="deleteFilm" parameterType="com.example.dto.Film">
+	<delete id="deleteFilm">
 		DELETE FROM film WHERE film_id = #{filmId} LIMIT 1
 	</delete>
+
+	<insert id="insertFilmActors" parameterType="list">
+		INSERT INTO film_actor
+			(film_id, actor_id, last_update)
+		VALUES
+			<foreach item="item" collection="list" separator=",">
+				(#{item.filmId}, #{item.actor.actorId}, #{item.lastUpdate})
+			</foreach>
+	</insert>
 
 	<delete id="deleteFilmActors">
 		DELETE FROM film_actor WHERE film_id = #{filmId}

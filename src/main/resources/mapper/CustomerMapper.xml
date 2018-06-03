@@ -19,7 +19,6 @@
 			r.rental_id,
 			r.rental_date,
 			r.inventory_id,
-			r.customer_id AS rental_customer_id,
 			r.return_date,
 			r.staff_id,
 			r.last_update AS rental_last_update
@@ -34,8 +33,7 @@
 	    ORDER BY c.customer_id, r.rental_id
 	</select>
 
-	<resultMap id="customerResultMap"
-		type="com.example.dto.Customer">
+	<resultMap id="customerResultMap" type="com.example.dto.Customer">
 		<id property="customerId" column="customer_id" />
 		<result property="storeId" column="store_id" />
 		<result property="firstName" column="first_name" />
@@ -44,34 +42,32 @@
 		<result property="active" column="active" />
 		<result property="createDate" column="create_date" />
 		<result property="lastUpdate" column="customer_last_update" />
-		<association property="address"
-			javaType="com.example.dto.Address">
+		<association property="address" javaType="com.example.dto.Address">
 			<id property="addressId" column="address_id" />
 			<result property="address" column="address" />
 			<result property="address2" column="address2" />
 			<result property="district" column="district" />
 			<result property="lastUpdate" column="address_last_update" />
 		</association>
-		<collection property="rentals" ofType="com.example.dto.Rental">
+		<collection property="rentals" ofType="com.example.dto.Rental" notNullColumn="rental_id">
 			<id property="rentalId" column="rental_id" />
 			<result property="rentalDate" column="rental_date" />
 			<result property="inventoryId" column="inventory_id" />
-			<result property="customerId" column="rental_customer_id" />
+			<result property="customerId" column="customer_id" />
 			<result property="returnDate" column="return_date" />
 			<result property="staffId" column="staff_id" />
 			<result property="lastUpdate" column="rental_last_update" />
 		</collection>
 	</resultMap>
 	
-	<insert id="insertCustomer" parameterType="com.example.dto.Customer" keyProperty="customerId"
-		useGeneratedKeys="true">
+	<insert id="insertCustomer" parameterType="com.example.dto.Customer" useGeneratedKeys="true" keyProperty="customerId">
 		INSERT INTO customer
 			(store_id, first_name, last_name, email, address_id, active, create_date, last_update)
 		VALUES
 			(#{storeId}, #{firstName}, #{lastName}, #{email}, #{address.addressId}, #{active}, #{createDate}, #{lastUpdate})
 	</insert>
 
-	<update id="updateCustomer" parameterType="com.example.dto.Customer" keyProperty="customerId">
+	<update id="updateCustomer" parameterType="com.example.dto.Customer">
 		UPDATE customer
 		<set>
 			<if test="storeId != null">store_id = #{storeId},</if>
@@ -89,7 +85,7 @@
 		LIMIT 1
 	</update>
 
-	<delete id="deleteCustomer" parameterType="com.example.dto.Customer">
+	<delete id="deleteCustomer">
 		DELETE FROM customer WHERE customer_id = #{customerId} LIMIT 1
 	</delete>
 </mapper>
