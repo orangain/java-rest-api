@@ -64,11 +64,20 @@
 	<insert id="insertFilm" parameterType="com.example.dto.Film" keyProperty="filmId"
 		useGeneratedKeys="true">
 		INSERT INTO film
-			(title, description, release_year, language_id, rental_duration, rental_rate,
-			 length, replacement_cost rating, special_features, last_update)
+			(title, description, release_year, language_id, original_language_id, rental_duration, rental_rate,
+			 length, replacement_cost, rating, special_features, last_update)
 		VALUES
-			(#{title}, #{description}, #{releaseYear}, #{languageId}, #{rentalDuration}, #{rentalRate},
+			(#{title}, #{description}, #{releaseYear}, #{languageId}, #{originalLanguageId}, #{rentalDuration}, #{rentalRate},
 			 #{length}, #{replacementCost}, #{rating}, #{specialFeatures}, #{lastUpdate})
+	</insert>
+
+	<insert id="insertFilmActors" parameterType="list" useGeneratedKeys="false">
+		INSERT INTO film_actor
+			(film_id, actor_id, last_update)
+		VALUES
+			<foreach item="item" collection="list" separator=",">
+				(#{item.filmId}, #{item.actor.actorId}, #{item.lastUpdate})
+			</foreach>
 	</insert>
 
 	<update id="updateFilm" parameterType="com.example.dto.Film" keyProperty="filmId">
@@ -78,6 +87,7 @@
 			<if test="description != null">description = #{description},</if>
 			<if test="releaseYear != null">release_year = #{releaseYear},</if>
 			<if test="languageId != null">language_id = #{languageId},</if>
+			<if test="originalLanguageId != null">original_language_id = #{originalLanguageId},</if>
 			<if test="rentalDuration != null">rental_duration = #{rentalDuration},</if>
 			<if test="rentalRate != null">rental_rate = #{rentalRate},</if>
 			<if test="length != null">length = #{length},</if>

@@ -67,9 +67,9 @@ public class FilmResource {
 	public Response createFilm(Film film, @Context UriInfo uriInfo) {
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
-			int numAffected = mapper.insertFilm(film);
+			int numAffected = mapper.insertFilmAndCollections(film);
 			if (numAffected == 0) {
-				return Response.serverError().entity("Failed to insert").build();
+				return Response.serverError().entity("Failed to insert Film").build();
 			}
 			session.commit();
 		}
