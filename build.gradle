@@ -10,7 +10,7 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'application'
 
-mainClassName = "com.example.Main"
+mainClassName = 'com.example.Main'
 applicationDefaultJvmArgs = ['-Duser.timezone=UTC']
 
 // In this section you declare where to find the dependencies of your project
@@ -32,13 +32,13 @@ dependencies {
     compile 'mysql:mysql-connector-java:8.0.11'
     compile 'commons-beanutils:commons-beanutils:1.9.3'
 
-    testCompile "org.codehaus.groovy:groovy-all:2.4.15"
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.15'
     testCompile 'junit:junit:4.12'
     testCompile 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.27'
 }
 
 test {
-	environment "DATABASE_URL", "jdbc:mysql://root:password@localhost/sakila?useSSL=false"
+	environment 'DATABASE_URL', 'jdbc:mysql://root:password@localhost/sakila?useSSL=false'
 	systemProperty 'user.timezone', 'UTC' // Use UTC
 	testLogging {
 		exceptionFormat 'full'
