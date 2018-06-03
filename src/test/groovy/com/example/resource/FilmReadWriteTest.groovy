@@ -251,6 +251,13 @@ public class FilmReadWriteTest extends ApiTestBase {
 	}
 
 	@Test
+	public void testUpdateFilmWithEmptyObject() {
+		def changes = []
+		def response = target("films/1").request().method("PATCH", this.buildJsonEntity(changes));
+		assert response.getStatus() == 400
+	}
+
+	@Test
 	public void testDeleteFilm() {
 		def film = [
 			title: "Awesome Film",
