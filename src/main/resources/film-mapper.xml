@@ -39,6 +39,7 @@
 		<result property="description" column="description" />
 		<result property="releaseYear" column="release_year" />
 		<result property="languageId" column="language_id" />
+		<result property="originalLanguageId" column="original_language_id" />
 		<result property="rentalDuration" column="rental_duration" />
 		<result property="rentalRate" column="rental_rate" />
 		<result property="length" column="length" />
