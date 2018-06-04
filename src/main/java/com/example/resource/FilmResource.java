@@ -27,6 +27,10 @@ import com.example.ApiApplication;
 import com.example.dto.Film;
 import com.example.mapper.FilmMapper;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 @Path("films")
 public class FilmResource {
 	@Inject
@@ -49,6 +53,8 @@ public class FilmResource {
 	@GET
 	@Path("{filmId}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Film.class)))
+	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Response getFilm(@PathParam("filmId") int filmId) {
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
@@ -64,6 +70,7 @@ public class FilmResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiResponse(responseCode = "201", content = @Content(schema = @Schema(implementation = Film.class)))
 	public Response createFilm(Film film, @Context UriInfo uriInfo) {
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
@@ -95,6 +102,7 @@ public class FilmResource {
 	@Path("{filmId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Film.class)))
 	public Response updateFilm(Film changes, @PathParam("filmId") int filmId) {
 		if (!changes.isAtLeastOneNormalFieldChanged() && changes.getActors() == null) {
 			return Response.status(Status.BAD_REQUEST).entity("At least one field is required").build();
@@ -125,6 +133,8 @@ public class FilmResource {
 
 	@DELETE
 	@Path("{filmId}")
+	@ApiResponse(responseCode = "204", description = "Successfully deleted")
+	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Response deleteFilm(@PathParam("filmId") int filmId) {
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
