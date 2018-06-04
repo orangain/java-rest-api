@@ -11,6 +11,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 @XmlElementNillable(nillable = true)
 public class Film {
 	// Normal fields
@@ -32,28 +34,40 @@ public class Film {
 	// Boolean fields to distinguish provided null value from non-provided field
 	// https://stackoverflow.com/questions/38424383/how-to-distinguish-between-null-and-not-provided-values-for-partial-updates-in-s
 	@XmlTransient
+	@Hidden
 	public boolean isTitleChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isDescriptionChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isReleaseYearChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isOriginalLanguageIdChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isLanguageIdChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isRentalDurationChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isRentalRateChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isLengthChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isReplacementCostChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isRatingChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isSpecialFeaturesChanged;
 	@XmlTransient
+	@Hidden
 	public boolean isLastUpdateChanged;
 
 	// Normal properties
@@ -181,6 +195,7 @@ public class Film {
 		this.actors = actors;
 	}
 
+	@Hidden
 	public boolean isAtLeastOneNormalFieldChanged() {
 		Class<? extends Film> c = this.getClass();
 		Field[] fields = c.getDeclaredFields();
