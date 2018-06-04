@@ -31,6 +31,8 @@ dependencies {
     compile 'ch.qos.logback:logback-classic:1.2.3'
     compile 'mysql:mysql-connector-java:8.0.11'
     compile 'commons-beanutils:commons-beanutils:1.9.3'
+    compile 'io.swagger.core.v3:swagger-jaxrs2:2.0.2'
+    compile 'io.swagger.core.v3:swagger-jaxrs2-servlet-initializer:2.0.2'
 
     testCompile 'org.codehaus.groovy:groovy-all:2.4.15'
     testCompile 'junit:junit:4.12'

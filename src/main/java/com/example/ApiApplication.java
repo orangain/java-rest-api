@@ -14,6 +14,7 @@ public class ApiApplication extends ResourceConfig {
 
 	public ApiApplication() throws IOException {
 		packages("com.example.resource");
+		packages("io.swagger.v3.jaxrs2.integration.resources"); // OpenAPI spec
 
 		Properties properties = new Properties();
 		if (System.getenv("JDBC_DRIVER") != null) {
