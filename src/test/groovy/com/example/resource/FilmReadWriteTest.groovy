@@ -94,10 +94,11 @@ public class FilmReadWriteTest extends ApiTestBase {
 
 		def response = target("films").request().post(this.buildJsonEntity(film));
 		assert response.getStatus() == 400
-		// assert response.getHeaderString("Content-Type") == "application/json"
+		assert response.getHeaderString("Content-Type") == "application/json"
 
-		// def item = this.parseJsonResponse(response)
-		// assert item == []
+		def item = this.parseJsonResponse(response)
+		assert item["message"] == "Validation Error"
+		assert item["details"].size() == 4
 	}
 
 	@Test
@@ -269,6 +270,18 @@ public class FilmReadWriteTest extends ApiTestBase {
 		def changes = []
 		def response = target("films/1").request().method("PATCH", this.buildJsonEntity(changes));
 		assert response.getStatus() == 400
+		assert response.getHeaderString("Content-Type") == "application/json"
+
+		def item = this.parseJsonResponse(response)
+		assert item == [
+			message: "Validation Error",
+			details: [
+				[
+					message: "At least one field must be provided",
+					path: ["present"],  // This path is confusing
+				]
+			]
+		]
 	}
 
 	@Test
