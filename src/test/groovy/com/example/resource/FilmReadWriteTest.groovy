@@ -87,6 +87,20 @@ public class FilmReadWriteTest extends ApiTestBase {
 	}
 
 	@Test
+	public void testCreateFilmWithInsufficientFields() {
+		def film = [
+			title: ""
+		]
+
+		def response = target("films").request().post(this.buildJsonEntity(film));
+		assert response.getStatus() == 400
+		// assert response.getHeaderString("Content-Type") == "application/json"
+
+		// def item = this.parseJsonResponse(response)
+		// assert item == []
+	}
+
+	@Test
 	public void testUpdateFilm() {
 		def changes = [
 			title: "AWESOME ACADEMY DINOSAUR",

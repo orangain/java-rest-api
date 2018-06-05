@@ -26,6 +26,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import com.example.ApiApplication;
 import com.example.dto.Film;
+import com.example.dto.variant.FilmForCreate;
+import com.example.dto.variant.FilmForUpdate;
 import com.example.mapper.FilmMapper;
 
 import io.swagger.v3.oas.annotations.media.Content;
@@ -72,7 +74,7 @@ public class FilmResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiResponse(responseCode = "201", content = @Content(schema = @Schema(implementation = Film.class)))
-	public Response createFilm(@Valid Film film, @Context UriInfo uriInfo) {
+	public Response createFilm(@Valid FilmForCreate film, @Context UriInfo uriInfo) {
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
 			int numAffected = mapper.insertFilmAndCollections(film);
@@ -104,7 +106,7 @@ public class FilmResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Film.class)))
-	public Response updateFilm(@Valid Film changes, @PathParam("filmId") int filmId) {
+	public Response updateFilm(@Valid FilmForUpdate changes, @PathParam("filmId") int filmId) {
 		if (!changes.isAtLeastOneNormalFieldChanged() && changes.getActors() == null) {
 			return Response.status(Status.BAD_REQUEST).entity("At least one field is required").build();
 		}

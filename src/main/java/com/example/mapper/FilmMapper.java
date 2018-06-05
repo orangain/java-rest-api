@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.example.dto.Film;
 import com.example.dto.FilmActor;
+import com.example.dto.variant.FilmForUpdate;
 
 /**
  * MyBatis mapper interface for Film.
@@ -113,13 +114,13 @@ public interface FilmMapper {
 	 * Update a {@code Film} including its collections.
 	 * 
 	 * @param changes
-	 *            A {@code Film} object to represent changes. Only modified
+	 *            A {@code FilmForUpdate} object to represent changes. Only modified
 	 *            properties of the object are changed. When it contains a
 	 *            collection, the collection will be updated by DELETE and INSERT
 	 *            strategy.
 	 * @return number of affected rows
 	 */
-	default int updateFilmAndCollections(Film changes) {
+	default int updateFilmAndCollections(FilmForUpdate changes) {
 		int numAffected = 0;
 		// Film
 		if (changes.isAtLeastOneNormalFieldChanged()) {
