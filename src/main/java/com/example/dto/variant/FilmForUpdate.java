@@ -1,14 +1,12 @@
 package com.example.dto.variant;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.Arrays;
 
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.example.dto.Film;
+import com.example.util.DtoUtil;
 
 import io.swagger.v3.oas.annotations.Hidden;
 
@@ -126,17 +124,7 @@ public class FilmForUpdate extends Film {
 	}
 
 	@Hidden
-	public boolean isAtLeastOneNormalFieldChanged() {
-		Class<? extends Film> c = this.getClass();
-		Field[] fields = c.getDeclaredFields();
-		return Arrays.stream(fields).filter(f -> Modifier.isPublic(f.getModifiers()))
-				.filter(f -> f.getName().matches("^is.+Changed")).filter(f -> f.getType().equals(boolean.class))
-				.anyMatch(f -> {
-					try {
-						return f.getBoolean(this);
-					} catch (IllegalArgumentException | IllegalAccessException e) {
-						throw new RuntimeException(e);
-					}
-				});
+	public boolean hasAnyNonCollectionFieldChanged() {
+		return DtoUtil.hasAnyNonCollectionFieldChanged(this);
 	}
 }

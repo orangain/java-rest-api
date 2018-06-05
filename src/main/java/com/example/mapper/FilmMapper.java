@@ -123,7 +123,7 @@ public interface FilmMapper {
 	default int updateFilmAndCollections(FilmForUpdate changes) {
 		int numAffected = 0;
 		// Film
-		if (changes.isAtLeastOneNormalFieldChanged()) {
+		if (changes.hasAnyNonCollectionFieldChanged()) {
 			numAffected = this.updateFilm(changes);
 			if (numAffected == 0) {
 				return numAffected; // Failed to insert
