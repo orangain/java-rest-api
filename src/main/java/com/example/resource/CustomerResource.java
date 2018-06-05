@@ -3,7 +3,6 @@ package com.example.resource;
 import java.net.URI;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -12,7 +11,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,21 +19,12 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.ibatis.session.SqlSession;
-import org.glassfish.jersey.server.ResourceConfig;
 
-import com.example.ApiApplication;
 import com.example.dto.Customer;
 import com.example.mapper.CustomerMapper;
 
 @Path("customers")
-public class CustomerResource {
-	@Inject
-	Application application;
-
-	private SqlSession openSession() {
-		ApiApplication application = (ApiApplication) ((ResourceConfig) this.application).getApplication();
-		return application.openSession();
-	}
+public class CustomerResource extends BaseResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
