@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -45,17 +46,17 @@ public class FilmResource extends BaseResource {
 	@GET
 	@Path("{filmId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Film.class)))
+	@ApiResponse(responseCode = "200", description = "Item successfully found")
 	@ApiResponse(responseCode = "404", description = "Item not found")
-	public Response getFilm(@PathParam("filmId") int filmId) {
+	public Film getFilm(@PathParam("filmId") int filmId) {
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
 			Film film = mapper.selectFilm(filmId);
 			if (film == null) {
-				return Response.status(Status.NOT_FOUND).build();
+				throw new WebApplicationException(Status.NOT_FOUND);
 			}
 
-			return Response.ok(film).build();
+			return film;
 		}
 	}
 
@@ -68,7 +69,7 @@ public class FilmResource extends BaseResource {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
 			int numAffected = mapper.insertFilmAndCollections(film);
 			if (numAffected == 0) {
-				return Response.serverError().entity("Failed to insert Film").build();
+				throw new WebApplicationException("Failed to insert");
 			}
 			session.commit();
 		}
@@ -79,7 +80,7 @@ public class FilmResource extends BaseResource {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
 			Film createdFilm = mapper.selectFilm(createdFilmId);
 			if (createdFilm == null) {
-				return Response.serverError().entity("Something wrong").build();
+				throw new WebApplicationException("Something wrong");
 			}
 
 			// See: https://stackoverflow.com/a/26094619
@@ -94,14 +95,14 @@ public class FilmResource extends BaseResource {
 	@Path("{filmId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Film.class)))
-	public Response updateFilm(@Valid FilmForUpdate changes, @PathParam("filmId") int filmId) {
+	@ApiResponse(responseCode = "200", description = "Item successfully updated")
+	public Film updateFilm(@Valid FilmForUpdate changes, @PathParam("filmId") int filmId) {
 		changes.setFilmId(filmId);
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
 			int numAffected = mapper.updateFilmAndCollections(changes);
 			if (numAffected == 0) {
-				return Response.serverError().entity("Failed to update").build();
+				throw new WebApplicationException("Failed to update");
 			}
 
 			session.commit();
@@ -112,23 +113,23 @@ public class FilmResource extends BaseResource {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
 			Film updatedFilm = mapper.selectFilm(filmId);
 			if (updatedFilm == null) {
-				return Response.serverError().entity("Something wrong").build();
+				throw new WebApplicationException("Something wrong");
 			}
 
-			return Response.ok(updatedFilm).build();
+			return updatedFilm;
 		}
 	}
 
 	@DELETE
 	@Path("{filmId}")
-	@ApiResponse(responseCode = "204", description = "Successfully deleted")
+	@ApiResponse(responseCode = "204", description = "Item successfully deleted")
 	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Response deleteFilm(@PathParam("filmId") int filmId) {
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
 			int numAffected = mapper.deleteFilm(filmId);
 			if (numAffected == 0) {
-				return Response.status(Status.NOT_FOUND).build();
+				throw new WebApplicationException(Status.NOT_FOUND);
 			}
 
 			session.commit();
