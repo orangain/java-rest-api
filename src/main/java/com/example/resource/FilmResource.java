@@ -63,7 +63,8 @@ public class FilmResource extends BaseResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiResponse(responseCode = "201", content = @Content(schema = @Schema(implementation = Film.class)))
+	@ApiResponse(responseCode = "201", description = "Item successfully created", content = @Content(schema = @Schema(implementation = Film.class)))
+	@ApiResponse(responseCode = "400", description = "Validation error")
 	public Response createFilm(@Valid FilmForCreate film, @Context UriInfo uriInfo) {
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
@@ -96,13 +97,15 @@ public class FilmResource extends BaseResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiResponse(responseCode = "200", description = "Item successfully updated")
+	@ApiResponse(responseCode = "400", description = "Validation error")
+	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Film updateFilm(@Valid FilmForUpdate changes, @PathParam("filmId") int filmId) {
 		changes.setFilmId(filmId);
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
 			int numAffected = mapper.updateFilmAndCollections(changes);
 			if (numAffected == 0) {
-				throw new WebApplicationException("Failed to update");
+				throw new WebApplicationException(Status.NOT_FOUND);
 			}
 
 			session.commit();
