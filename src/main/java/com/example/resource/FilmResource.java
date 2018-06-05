@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -71,7 +72,7 @@ public class FilmResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiResponse(responseCode = "201", content = @Content(schema = @Schema(implementation = Film.class)))
-	public Response createFilm(Film film, @Context UriInfo uriInfo) {
+	public Response createFilm(@Valid Film film, @Context UriInfo uriInfo) {
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);
 			int numAffected = mapper.insertFilmAndCollections(film);
@@ -103,7 +104,7 @@ public class FilmResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Film.class)))
-	public Response updateFilm(Film changes, @PathParam("filmId") int filmId) {
+	public Response updateFilm(@Valid Film changes, @PathParam("filmId") int filmId) {
 		if (!changes.isAtLeastOneNormalFieldChanged() && changes.getActors() == null) {
 			return Response.status(Status.BAD_REQUEST).entity("At least one field is required").build();
 		}

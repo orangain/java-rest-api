@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.ServerProperties;
 
 public class ApiApplication extends ResourceConfig {
 	SqlSessionFactory sqlSessionFactory;
@@ -15,6 +16,7 @@ public class ApiApplication extends ResourceConfig {
 	public ApiApplication() throws IOException {
 		packages("com.example.resource");
 		packages("io.swagger.v3.jaxrs2.integration.resources"); // OpenAPI spec
+		property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 
 		Properties properties = new Properties();
 		if (System.getenv("JDBC_DRIVER") != null) {
