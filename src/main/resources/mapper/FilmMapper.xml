@@ -7,7 +7,6 @@
 			f.title,
 			f.description,
 			f.release_year,
-			f.language_id,
 			f.original_language_id,
 			f.rental_duration,
 			f.rental_rate,
@@ -16,6 +15,9 @@
 			f.rating,
 			f.special_features,
 			f.last_update AS f_last_update,
+			l.language_id,
+			l.name AS l_name,
+			l.last_update AS l_last_update,
 			fa.film_id,
 			fa.last_update AS fa_last_update,
 			a.actor_id,
@@ -23,6 +25,7 @@
 			a.last_name,
 			a.last_update AS a_last_update
 		FROM film AS f
+		LEFT JOIN language AS l ON f.language_id = l.language_id
 		LEFT JOIN film_actor AS fa ON f.film_id = fa.film_id
 		LEFT JOIN actor AS a ON fa.actor_id = a.actor_id
 		<where>
@@ -38,7 +41,6 @@
 		<result property="title" column="title" />
 		<result property="description" column="description" />
 		<result property="releaseYear" column="release_year" />
-		<result property="languageId" column="language_id" />
 		<result property="originalLanguageId" column="original_language_id" />
 		<result property="rentalDuration" column="rental_duration" />
 		<result property="rentalRate" column="rental_rate" />
@@ -47,6 +49,11 @@
 		<result property="rating" column="rating" />
 		<result property="specialFeatures" column="special_features" />
 		<result property="lastUpdate" column="f_last_update" />
+		<association property="language" javaType="com.example.dto.Language">
+			<id property="languageId" column="language_id" />
+			<result property="name" column="l_name" />
+			<result property="lastUpdate" column="l_last_update" />
+		</association>
 		<collection property="actors" ofType="com.example.dto.FilmActor" notNullColumn="actor_id">
 			<id property="filmId" column="film_id" />
  			<id column="actor_id" />
@@ -66,7 +73,7 @@
 			(title, description, release_year, language_id, original_language_id, rental_duration, rental_rate,
 			 length, replacement_cost, rating, special_features, last_update)
 		VALUES
-			(#{title}, #{description}, #{releaseYear}, #{languageId}, #{originalLanguageId}, #{rentalDuration}, #{rentalRate},
+			(#{title}, #{description}, #{releaseYear}, #{language.languageId}, #{originalLanguageId}, #{rentalDuration}, #{rentalRate},
 			 #{length}, #{replacementCost}, #{rating}, #{specialFeatures}, #{lastUpdate})
 	</insert>
 
@@ -76,7 +83,7 @@
 			<if test="hasTitleChanged">title = #{title},</if>
 			<if test="hasDescriptionChanged">description = #{description},</if>
 			<if test="hasReleaseYearChanged">release_year = #{releaseYear},</if>
-			<if test="hasLanguageIdChanged">language_id = #{languageId},</if>
+			<if test="hasLanguageChanged">language_id = #{language.languageId},</if>
 			<if test="hasOriginalLanguageIdChanged">original_language_id = #{originalLanguageId},</if>
 			<if test="hasRentalDurationChanged">rental_duration = #{rentalDuration},</if>
 			<if test="hasRentalRateChanged">rental_rate = #{rentalRate},</if>

@@ -7,6 +7,7 @@ import javax.validation.constraints.AssertTrue;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.example.dto.Film;
+import com.example.dto.Language;
 import com.example.util.DtoUtil;
 
 import io.swagger.v3.oas.annotations.Hidden;
@@ -29,9 +30,6 @@ public class FilmForUpdate extends Film {
 	public boolean hasOriginalLanguageIdChanged;
 	@XmlTransient
 	@Hidden
-	public boolean hasLanguageIdChanged;
-	@XmlTransient
-	@Hidden
 	public boolean hasRentalDurationChanged;
 	@XmlTransient
 	@Hidden
@@ -51,6 +49,9 @@ public class FilmForUpdate extends Film {
 	@XmlTransient
 	@Hidden
 	public boolean hasLastUpdateChanged;
+	@XmlTransient
+	@Hidden
+	public boolean hasLanguageChanged;
 
 	@Override
 	public void setTitle(String title) {
@@ -68,12 +69,6 @@ public class FilmForUpdate extends Film {
 	public void setReleaseYear(Integer releaseYear) {
 		super.setReleaseYear(releaseYear);
 		this.hasReleaseYearChanged = true;
-	}
-
-	@Override
-	public void setLanguageId(Integer languageId) {
-		super.setLanguageId(languageId);
-		this.hasLanguageIdChanged = true;
 	}
 
 	@Override
@@ -122,6 +117,12 @@ public class FilmForUpdate extends Film {
 	public void setLastUpdate(OffsetDateTime lastUpdate) {
 		super.setLastUpdate(lastUpdate);
 		this.hasLastUpdateChanged = true;
+	}
+
+	@Override
+	public void setLanguage(Language language) {
+		super.setLanguage(language);
+		this.hasLanguageChanged = true;
 	}
 
 	@Hidden

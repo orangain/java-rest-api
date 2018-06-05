@@ -13,7 +13,6 @@ public class Film {
 	private String title;
 	private String description;
 	private Integer releaseYear;
-	private Integer languageId;
 	private Integer originalLanguageId;
 	private Integer rentalDuration;
 	private BigDecimal rentalRate;
@@ -22,6 +21,7 @@ public class Film {
 	private String rating;
 	private String specialFeatures;
 	private OffsetDateTime lastUpdate;
+	private Language language;
 	private List<FilmActor> actors;
 
 	// Normal properties
@@ -55,14 +55,6 @@ public class Film {
 
 	public void setReleaseYear(Integer releaseYear) {
 		this.releaseYear = releaseYear;
-	}
-
-	public Integer getLanguageId() {
-		return languageId;
-	}
-
-	public void setLanguageId(Integer languageId) {
-		this.languageId = languageId;
 	}
 
 	public Integer getOriginalLanguageId() {
@@ -127,6 +119,14 @@ public class Film {
 
 	public void setLastUpdate(OffsetDateTime lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+
+	public Language getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(Language languageId) {
+		this.language = languageId;
 	}
 
 	public List<FilmActor> getActors() {

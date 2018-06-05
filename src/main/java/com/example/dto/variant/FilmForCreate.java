@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.NotNull;
 
 import com.example.dto.Film;
+import com.example.dto.Language;
 
 public class FilmForCreate extends Film {
 
@@ -17,8 +18,8 @@ public class FilmForCreate extends Film {
 
 	@NotNull
 	@Override
-	public Integer getLanguageId() {
-		return super.getLanguageId();
+	public Language getLanguage() {
+		return super.getLanguage();
 	}
 
 	@NotNull
