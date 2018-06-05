@@ -73,18 +73,18 @@
 	<update id="updateFilm" parameterType="com.example.dto.Film">
 		UPDATE film
 		<set>
-			<if test="isTitleChanged">title = #{title},</if>
-			<if test="isDescriptionChanged">description = #{description},</if>
-			<if test="isReleaseYearChanged">release_year = #{releaseYear},</if>
-			<if test="isLanguageIdChanged">language_id = #{languageId},</if>
-			<if test="isOriginalLanguageIdChanged">original_language_id = #{originalLanguageId},</if>
-			<if test="isRentalDurationChanged">rental_duration = #{rentalDuration},</if>
-			<if test="isRentalRateChanged">rental_rate = #{rentalRate},</if>
-			<if test="isLengthChanged">length = #{length},</if>
-			<if test="isReplacementCostChanged">replacement_cost = #{replacementCost},</if>
-			<if test="isRatingChanged">rating = #{rating},</if>
-			<if test="isSpecialFeaturesChanged">special_features = #{specialFeatures},</if>
-			<if test="isLastUpdateChanged">last_update = #{lastUpdate},</if>
+			<if test="hasTitleChanged">title = #{title},</if>
+			<if test="hasDescriptionChanged">description = #{description},</if>
+			<if test="hasReleaseYearChanged">release_year = #{releaseYear},</if>
+			<if test="hasLanguageIdChanged">language_id = #{languageId},</if>
+			<if test="hasOriginalLanguageIdChanged">original_language_id = #{originalLanguageId},</if>
+			<if test="hasRentalDurationChanged">rental_duration = #{rentalDuration},</if>
+			<if test="hasRentalRateChanged">rental_rate = #{rentalRate},</if>
+			<if test="hasLengthChanged">length = #{length},</if>
+			<if test="hasReplacementCostChanged">replacement_cost = #{replacementCost},</if>
+			<if test="hasRatingChanged">rating = #{rating},</if>
+			<if test="hasSpecialFeaturesChanged">special_features = #{specialFeatures},</if>
+			<if test="hasLastUpdateChanged">last_update = #{lastUpdate},</if>
 		</set>
 		<where>
 			film_id = #{filmId}

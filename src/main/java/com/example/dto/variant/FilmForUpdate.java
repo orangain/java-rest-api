@@ -16,111 +16,111 @@ public class FilmForUpdate extends Film {
 	// https://stackoverflow.com/questions/38424383/how-to-distinguish-between-null-and-not-provided-values-for-partial-updates-in-s
 	@XmlTransient
 	@Hidden
-	public boolean isTitleChanged;
+	public boolean hasTitleChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isDescriptionChanged;
+	public boolean hasDescriptionChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isReleaseYearChanged;
+	public boolean hasReleaseYearChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isOriginalLanguageIdChanged;
+	public boolean hasOriginalLanguageIdChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isLanguageIdChanged;
+	public boolean hasLanguageIdChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isRentalDurationChanged;
+	public boolean hasRentalDurationChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isRentalRateChanged;
+	public boolean hasRentalRateChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isLengthChanged;
+	public boolean hasLengthChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isReplacementCostChanged;
+	public boolean hasReplacementCostChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isRatingChanged;
+	public boolean hasRatingChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isSpecialFeaturesChanged;
+	public boolean hasSpecialFeaturesChanged;
 	@XmlTransient
 	@Hidden
-	public boolean isLastUpdateChanged;
+	public boolean hasLastUpdateChanged;
 
 	@Override
 	public void setTitle(String title) {
 		super.setTitle(title);
-		this.isTitleChanged = true;
+		this.hasTitleChanged = true;
 	}
 
 	@Override
 	public void setDescription(String description) {
 		super.setDescription(description);
-		this.isDescriptionChanged = true;
+		this.hasDescriptionChanged = true;
 	}
 
 	@Override
 	public void setReleaseYear(Integer releaseYear) {
 		super.setReleaseYear(releaseYear);
-		this.isReleaseYearChanged = true;
+		this.hasReleaseYearChanged = true;
 	}
 
 	@Override
 	public void setLanguageId(Integer languageId) {
 		super.setLanguageId(languageId);
-		this.isLanguageIdChanged = true;
+		this.hasLanguageIdChanged = true;
 	}
 
 	@Override
 	public void setOriginalLanguageId(Integer originalLanguageId) {
 		super.setOriginalLanguageId(originalLanguageId);
-		this.isOriginalLanguageIdChanged = true;
+		this.hasOriginalLanguageIdChanged = true;
 	}
 
 	@Override
 	public void setRentalDuration(Integer rentalDuration) {
 		super.setRentalDuration(rentalDuration);
-		this.isRentalDurationChanged = true;
+		this.hasRentalDurationChanged = true;
 	}
 
 	@Override
 	public void setRentalRate(BigDecimal rentalRate) {
 		super.setRentalRate(rentalRate);
-		this.isRentalRateChanged = true;
+		this.hasRentalRateChanged = true;
 	}
 
 	@Override
 	public void setLength(Integer length) {
 		super.setLength(length);
-		this.isLengthChanged = true;
+		this.hasLengthChanged = true;
 	}
 
 	@Override
 	public void setReplacementCost(BigDecimal replacementCost) {
 		super.setReplacementCost(replacementCost);
-		this.isReplacementCostChanged = true;
+		this.hasReplacementCostChanged = true;
 	}
 
 	@Override
 	public void setRating(String rating) {
 		super.setRating(rating);
-		this.isRatingChanged = true;
+		this.hasRatingChanged = true;
 	}
 
 	@Override
 	public void setSpecialFeatures(String specialFeatures) {
 		super.setSpecialFeatures(specialFeatures);
-		this.isSpecialFeaturesChanged = true;
+		this.hasSpecialFeaturesChanged = true;
 	}
 
 	@Override
 	public void setLastUpdate(OffsetDateTime lastUpdate) {
 		super.setLastUpdate(lastUpdate);
-		this.isLastUpdateChanged = true;
+		this.hasLastUpdateChanged = true;
 	}
 
 	@Hidden
