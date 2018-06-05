@@ -96,10 +96,6 @@ public class FilmResource extends BaseResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Film.class)))
 	public Response updateFilm(@Valid FilmForUpdate changes, @PathParam("filmId") int filmId) {
-		if (!changes.hasAnyNonCollectionFieldChanged() && changes.getActors() == null) {
-			return Response.status(Status.BAD_REQUEST).entity("At least one field is required").build();
-		}
-
 		changes.setFilmId(filmId);
 		try (SqlSession session = this.openSession()) {
 			FilmMapper mapper = session.getMapper(FilmMapper.class);

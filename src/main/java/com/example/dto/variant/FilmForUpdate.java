@@ -3,6 +3,7 @@ package com.example.dto.variant;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+import javax.validation.constraints.AssertTrue;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.example.dto.Film;
@@ -126,5 +127,11 @@ public class FilmForUpdate extends Film {
 	@Hidden
 	public boolean hasAnyNonCollectionFieldChanged() {
 		return DtoUtil.hasAnyNonCollectionFieldChanged(this);
+	}
+
+	@AssertTrue(message = "At least one field must be provided")
+	@Hidden
+	public boolean isPresent() {
+		return this.hasAnyNonCollectionFieldChanged() || this.getActors() != null;
 	}
 }
