@@ -23,11 +23,17 @@ import org.apache.ibatis.session.SqlSession;
 import com.example.dto.Customer;
 import com.example.sqlmapper.CustomerMapper;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 @Path("customers")
 public class CustomerResource extends BaseResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(summary = "Get Customers", tags = { "Customer" })
 	public List<Customer> getCustomers() {
 		try (SqlSession session = this.openSession()) {
 			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
@@ -38,6 +44,9 @@ public class CustomerResource extends BaseResource {
 	@GET
 	@Path("{customerId}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(summary = "Get a Customer", tags = { "Customer" })
+	@ApiResponse(responseCode = "200", description = "Item successfully found")
+	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Response getCustomer(@PathParam("customerId") int customerId) {
 		try (SqlSession session = this.openSession()) {
 			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
@@ -53,6 +62,9 @@ public class CustomerResource extends BaseResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(summary = "Create a Customer", tags = { "Customer" })
+	@ApiResponse(responseCode = "201", description = "Item successfully created", content = @Content(schema = @Schema(implementation = Customer.class)))
+	@ApiResponse(responseCode = "400", description = "Validation error")
 	public Response createCustomer(Customer customer, @Context UriInfo uriInfo) {
 		try (SqlSession session = this.openSession()) {
 			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
@@ -84,6 +96,10 @@ public class CustomerResource extends BaseResource {
 	@Path("{customerId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(summary = "Update a Customer", tags = { "Customer" })
+	@ApiResponse(responseCode = "200", description = "Item successfully updated")
+	@ApiResponse(responseCode = "400", description = "Validation error")
+	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Response updateCustomer(Customer changes, @PathParam("customerId") int customerId) {
 		try (SqlSession session = this.openSession()) {
 			CustomerMapper mapper = session.getMapper(CustomerMapper.class);
@@ -110,6 +126,9 @@ public class CustomerResource extends BaseResource {
 
 	@DELETE
 	@Path("{customerId}")
+	@Operation(summary = "Delete a Customer", tags = { "Customer" })
+	@ApiResponse(responseCode = "204", description = "Item successfully deleted")
+	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Response deleteCustomer(@PathParam("customerId") int customerId) {
 		try (SqlSession session = this.openSession()) {
 			CustomerMapper mapper = session.getMapper(CustomerMapper.class);

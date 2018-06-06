@@ -28,6 +28,7 @@ import com.example.dto.variant.FilmForCreate;
 import com.example.dto.variant.FilmForUpdate;
 import com.example.sqlmapper.FilmMapper;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -41,6 +42,7 @@ public class FilmResource extends BaseResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(summary = "Get Films", tags = { "Film" })
 	public List<Film> getFilms() {
 		try (SqlSession session = this.openSession()) {
 			FilmDao dao = this.getDao(session);
@@ -51,6 +53,7 @@ public class FilmResource extends BaseResource {
 	@GET
 	@Path("{filmId}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(summary = "Get a Film", tags = { "Film" })
 	@ApiResponse(responseCode = "200", description = "Item successfully found")
 	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Film getFilm(@PathParam("filmId") int filmId) {
@@ -68,6 +71,7 @@ public class FilmResource extends BaseResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(summary = "Create a Film", tags = { "Film" })
 	@ApiResponse(responseCode = "201", description = "Item successfully created", content = @Content(schema = @Schema(implementation = Film.class)))
 	@ApiResponse(responseCode = "400", description = "Validation error")
 	public Response createFilm(@Valid FilmForCreate film, @Context UriInfo uriInfo) {
@@ -101,6 +105,7 @@ public class FilmResource extends BaseResource {
 	@Path("{filmId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(summary = "Update a Film", tags = { "Film" })
 	@ApiResponse(responseCode = "200", description = "Item successfully updated")
 	@ApiResponse(responseCode = "400", description = "Validation error")
 	@ApiResponse(responseCode = "404", description = "Item not found")
@@ -129,6 +134,7 @@ public class FilmResource extends BaseResource {
 
 	@DELETE
 	@Path("{filmId}")
+	@Operation(summary = "Delete a Film", tags = { "Film" })
 	@ApiResponse(responseCode = "204", description = "Item successfully deleted")
 	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Response deleteFilm(@PathParam("filmId") int filmId) {
