@@ -22,6 +22,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.example.dao.FilmDao;
 import com.example.dto.Film;
 import com.example.dto.variant.FilmForCreate;
 import com.example.dto.variant.FilmForUpdate;
@@ -34,12 +35,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @Path("films")
 public class FilmResource extends BaseResource {
 
+	private FilmDao getDao(SqlSession session) {
+		return new FilmDao(session.getMapper(FilmMapper.class));
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Film> getFilms() {
 		try (SqlSession session = this.openSession()) {
-			FilmMapper mapper = session.getMapper(FilmMapper.class);
-			return mapper.selectFilm();
+			FilmDao dao = this.getDao(session);
+			return dao.getFilms();
 		}
 	}
 
@@ -50,8 +55,8 @@ public class FilmResource extends BaseResource {
 	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Film getFilm(@PathParam("filmId") int filmId) {
 		try (SqlSession session = this.openSession()) {
-			FilmMapper mapper = session.getMapper(FilmMapper.class);
-			Film film = mapper.selectFilm(filmId);
+			FilmDao dao = this.getDao(session);
+			Film film = dao.getFilm(filmId);
 			if (film == null) {
 				throw new WebApplicationException(Status.NOT_FOUND);
 			}
@@ -67,8 +72,8 @@ public class FilmResource extends BaseResource {
 	@ApiResponse(responseCode = "400", description = "Validation error")
 	public Response createFilm(@Valid FilmForCreate film, @Context UriInfo uriInfo) {
 		try (SqlSession session = this.openSession()) {
-			FilmMapper mapper = session.getMapper(FilmMapper.class);
-			int numAffected = mapper.insertFilmAndCollections(film);
+			FilmDao dao = this.getDao(session);
+			int numAffected = dao.insertFilm(film);
 			if (numAffected == 0) {
 				throw new WebApplicationException("Failed to insert");
 			}
@@ -78,8 +83,8 @@ public class FilmResource extends BaseResource {
 		int createdFilmId = film.getFilmId();
 		// Ensure to return committed result
 		try (SqlSession session = this.openSession()) {
-			FilmMapper mapper = session.getMapper(FilmMapper.class);
-			Film createdFilm = mapper.selectFilm(createdFilmId);
+			FilmDao dao = this.getDao(session);
+			Film createdFilm = dao.getFilm(createdFilmId);
 			if (createdFilm == null) {
 				throw new WebApplicationException("Something wrong");
 			}
@@ -100,10 +105,9 @@ public class FilmResource extends BaseResource {
 	@ApiResponse(responseCode = "400", description = "Validation error")
 	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Film updateFilm(@Valid FilmForUpdate changes, @PathParam("filmId") int filmId) {
-		changes.setFilmId(filmId);
 		try (SqlSession session = this.openSession()) {
-			FilmMapper mapper = session.getMapper(FilmMapper.class);
-			int numAffected = mapper.updateFilmAndCollections(changes);
+			FilmDao dao = this.getDao(session);
+			int numAffected = dao.updateFilm(filmId, changes);
 			if (numAffected == 0) {
 				throw new WebApplicationException(Status.NOT_FOUND);
 			}
@@ -113,8 +117,8 @@ public class FilmResource extends BaseResource {
 
 		// Ensure to return committed result
 		try (SqlSession session = this.openSession()) {
-			FilmMapper mapper = session.getMapper(FilmMapper.class);
-			Film updatedFilm = mapper.selectFilm(filmId);
+			FilmDao dao = this.getDao(session);
+			Film updatedFilm = dao.getFilm(filmId);
 			if (updatedFilm == null) {
 				throw new WebApplicationException("Something wrong");
 			}
@@ -129,8 +133,8 @@ public class FilmResource extends BaseResource {
 	@ApiResponse(responseCode = "404", description = "Item not found")
 	public Response deleteFilm(@PathParam("filmId") int filmId) {
 		try (SqlSession session = this.openSession()) {
-			FilmMapper mapper = session.getMapper(FilmMapper.class);
-			int numAffected = mapper.deleteFilm(filmId);
+			FilmDao dao = this.getDao(session);
+			int numAffected = dao.deleteFilm(filmId);
 			if (numAffected == 0) {
 				throw new WebApplicationException(Status.NOT_FOUND);
 			}

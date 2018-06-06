@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.example.dto.Film;
 import com.example.dto.FilmActor;
-import com.example.dto.variant.FilmForUpdate;
 
 /**
  * MyBatis mapper interface for Film.
@@ -85,60 +84,4 @@ public interface FilmMapper {
 	 * @return number of affected rows
 	 */
 	int deleteFilmActors(int filmId);
-
-	/**
-	 * Insert a {@code Film} and its collections into database.
-	 * 
-	 * @param film
-	 *            a {@code Film} to insert
-	 * @return number of affected rows
-	 */
-	default int insertFilmAndCollections(Film film) {
-		// Film
-		int numAffected = this.insertFilm(film);
-		if (numAffected == 0) {
-			return numAffected; // Failed to insert
-		}
-		int generatedId = film.getFilmId();
-
-		// FilmActors
-		if (film.getActors().size() > 0) {
-			film.getActors().forEach(fa -> fa.setFilmId(generatedId));
-			numAffected += this.insertFilmActors(film.getActors());
-		}
-
-		return numAffected;
-	}
-
-	/**
-	 * Update a {@code Film} including its collections.
-	 * 
-	 * @param changes
-	 *            A {@code FilmForUpdate} object to represent changes. Only modified
-	 *            properties of the object are changed. When it contains a
-	 *            collection, the collection will be updated by DELETE and INSERT
-	 *            strategy.
-	 * @return number of affected rows
-	 */
-	default int updateFilmAndCollections(FilmForUpdate changes) {
-		int numAffected = 0;
-		// Film
-		if (changes.hasAnyNonCollectionFieldChanged()) {
-			numAffected = this.updateFilm(changes);
-			if (numAffected == 0) {
-				return numAffected; // Failed to insert
-			}
-		}
-
-		// FilmActors: delete and insert
-		if (changes.getActors() != null) {
-			numAffected += this.deleteFilmActors(changes.getFilmId());
-			if (changes.getActors().size() > 0) {
-				changes.getActors().forEach(fa -> fa.setFilmId(changes.getFilmId()));
-				numAffected += this.insertFilmActors(changes.getActors());
-			}
-		}
-
-		return numAffected;
-	}
 }
