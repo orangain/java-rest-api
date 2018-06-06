@@ -26,7 +26,7 @@ import com.example.dao.FilmDao;
 import com.example.dto.Film;
 import com.example.dto.variant.FilmForCreate;
 import com.example.dto.variant.FilmForUpdate;
-import com.example.mapper.FilmMapper;
+import com.example.sqlmapper.FilmMapper;
 
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

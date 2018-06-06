@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.dto.Film;
 import com.example.dto.variant.FilmForUpdate;
-import com.example.mapper.FilmMapper;
+import com.example.sqlmapper.FilmMapper;
 
 public class FilmDao {
 

@@ -1,4 +1,4 @@
-package com.example.mapper;
+package com.example.sqlmapper;
 
 import java.util.List;
 

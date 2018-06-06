@@ -21,7 +21,7 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.ibatis.session.SqlSession;
 
 import com.example.dto.Customer;
-import com.example.mapper.CustomerMapper;
+import com.example.sqlmapper.CustomerMapper;
 
 @Path("customers")
 public class CustomerResource extends BaseResource {
