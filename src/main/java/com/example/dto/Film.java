@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
 
 @XmlElementNillable(nillable = true)
@@ -21,7 +24,7 @@ public class Film {
 	private String rating;
 	private String specialFeatures;
 	private OffsetDateTime lastUpdate;
-	private Language language;
+	private LanguageInFilm language;
 	private List<FilmActor> actors;
 
 	// Normal properties
@@ -121,11 +124,12 @@ public class Film {
 		this.lastUpdate = lastUpdate;
 	}
 
-	public Language getLanguage() {
+	@Valid
+	public LanguageInFilm getLanguage() {
 		return language;
 	}
 
-	public void setLanguage(Language languageId) {
+	public void setLanguage(LanguageInFilm languageId) {
 		this.language = languageId;
 	}
 
@@ -135,5 +139,19 @@ public class Film {
 
 	public void setActors(List<FilmActor> actors) {
 		this.actors = actors;
+	}
+
+	/**
+	 * Inner class to add constrains. Note: Class name must be different from
+	 * {@code Language} to work with moxy's {@code MessageBodyReader}.
+	 *
+	 */
+	public static class LanguageInFilm extends Language {
+
+		@NotNull
+		@Override
+		public Integer getLanguageId() {
+			return super.getLanguageId();
+		}
 	}
 }

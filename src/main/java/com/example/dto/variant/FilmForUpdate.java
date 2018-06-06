@@ -7,7 +7,6 @@ import javax.validation.constraints.AssertTrue;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.example.dto.Film;
-import com.example.dto.Language;
 import com.example.util.DtoUtil;
 
 import io.swagger.v3.oas.annotations.Hidden;
@@ -120,7 +119,7 @@ public class FilmForUpdate extends Film {
 	}
 
 	@Override
-	public void setLanguage(Language language) {
+	public void setLanguage(LanguageInFilm language) {
 		super.setLanguage(language);
 		this.hasLanguageChanged = true;
 	}

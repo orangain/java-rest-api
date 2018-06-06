@@ -304,6 +304,27 @@ public class FilmReadWriteTest extends ApiTestBase {
 	}
 
 	@Test
+	public void testUpdateFilmWithInvalidAssociation() {
+		def changes = [
+			language: [:]
+		]
+		def response = target("films/1").request().method("PATCH", this.buildJsonEntity(changes));
+		assert response.getStatus() == 400
+		assert response.getHeaderString("Content-Type") == "application/json"
+
+		def item = this.parseJsonResponse(response)
+		assert item == [
+			message: "Validation Error",
+			details: [
+				[
+					message: "may not be null",
+					path: ["language", "languageId"],
+				]
+			]
+		]
+	}
+
+	@Test
 	public void testDeleteFilm() {
 		def film = [
 			title: "Awesome Film",
