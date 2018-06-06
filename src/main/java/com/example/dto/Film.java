@@ -8,6 +8,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
+import org.eclipse.persistence.oxm.annotations.XmlWriteOnly;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.Schema.AccessMode;
 
 @XmlElementNillable(nillable = true)
 public class Film {
@@ -84,6 +88,8 @@ public class Film {
 		this.rentalRate = rentalRate;
 	}
 
+	@XmlWriteOnly // @XmlWriteOnly means read-only as an API
+	@Schema(accessMode = AccessMode.READ_ONLY)
 	public Integer getLength() {
 		return length;
 	}

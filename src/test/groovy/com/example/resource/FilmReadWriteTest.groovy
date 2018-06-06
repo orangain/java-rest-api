@@ -62,7 +62,7 @@ public class FilmReadWriteTest extends ApiTestBase {
 			originalLanguageId: 1,
 			rentalDuration: 4,
 			rentalRate: 0.98,
-			length: 120,
+			length: null,
 			replacementCost: 10.99,
 			rating: "G",
 			specialFeatures:"Trailers,Deleted Scenes",
@@ -322,6 +322,22 @@ public class FilmReadWriteTest extends ApiTestBase {
 				]
 			]
 		]
+	}
+
+	@Test
+	public void testUpdateFilmReadOnlyField() {
+		def changes = [
+			title: "AWESOME ACADEMY DINOSAUR",
+			length: 3,  // read only field
+		]
+
+		def response = target("films/1").request().method("PATCH", this.buildJsonEntity(changes));
+		assert response.getStatus() == 200
+		assert response.getHeaderString("Content-Type") == "application/json"
+
+		def item = this.parseJsonResponse(response)
+		assert item["title"] == "AWESOME ACADEMY DINOSAUR"
+		assert item["length"] == 86 // not changed
 	}
 
 	@Test
