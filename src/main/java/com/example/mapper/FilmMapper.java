@@ -34,18 +34,18 @@ public interface FilmMapper {
 	 * @param filter
 	 *            A {@code Film} object to filter result. Modified properties of the
 	 *            object are used as WHERE clause.
-	 * @return list of Film object
+	 * @return list of {@code Film} object
 	 */
 	List<Film> selectFilm(Film filter);
 
 	/**
 	 * Insert a {@code Film} into database.
 	 * 
-	 * @param film
-	 *            a Film object to insert
+	 * @param item
+	 *            a {@code Film} object to insert
 	 * @return number of affected rows
 	 */
-	int insertFilm(Film film);
+	int insertFilm(Film item);
 
 	/**
 	 * Update a {@code Film} in database.
@@ -69,11 +69,11 @@ public interface FilmMapper {
 	/**
 	 * Insert {@code FilmActor}s into database.
 	 * 
-	 * @param filmActors
+	 * @param items
 	 *            list of {@code FilmActor}s to insert
 	 * @return number of affected rows
 	 */
-	int insertFilmActors(List<FilmActor> filmActors);
+	int insertFilmActors(List<FilmActor> items);
 
 	/**
 	 * Delete {@code FilmActor}s associated with a Film from database.

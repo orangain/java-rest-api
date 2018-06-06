@@ -19,7 +19,7 @@ public class FilmDao {
 	 * 
 	 * @param filmId
 	 *            an ID of {@code Film} to get
-	 * @return a Film object
+	 * @return a {@code Film} object
 	 */
 	public Film getFilm(Integer filmId) {
 		return mapper.selectFilm(filmId);
@@ -40,7 +40,7 @@ public class FilmDao {
 	 * @param filter
 	 *            A {@code Film} object to filter result. Modified properties of the
 	 *            object are used as WHERE clause.
-	 * @return list of Film object
+	 * @return list of {@code Film} object
 	 */
 	public List<Film> getFilms(Film filter) {
 		return mapper.selectFilm(filter);
@@ -49,22 +49,22 @@ public class FilmDao {
 	/**
 	 * Insert a {@code Film} and its collections into database.
 	 * 
-	 * @param film
+	 * @param item
 	 *            a {@code Film} to insert
 	 * @return number of affected rows
 	 */
-	public int insertFilm(Film film) {
+	public int insertFilm(Film item) {
 		// Film
-		int numAffected = mapper.insertFilm(film);
+		int numAffected = mapper.insertFilm(item);
 		if (numAffected == 0) {
 			return numAffected; // Failed to insert
 		}
-		int generatedId = film.getFilmId();
+		int generatedId = item.getFilmId();
 
 		// FilmActors
-		if (film.getActors().size() > 0) {
-			film.getActors().forEach(fa -> fa.setFilmId(generatedId));
-			numAffected += mapper.insertFilmActors(film.getActors());
+		if (item.getActors().size() > 0) {
+			item.getActors().forEach(fa -> fa.setFilmId(generatedId));
+			numAffected += mapper.insertFilmActors(item.getActors());
 		}
 
 		return numAffected;
@@ -84,6 +84,7 @@ public class FilmDao {
 	 */
 	public int updateFilm(Integer filmId, FilmForUpdate changes) {
 		changes.setFilmId(filmId);
+
 		int numAffected = 0;
 		// Film
 		if (changes.hasAnyNonCollectionFieldChanged()) {
