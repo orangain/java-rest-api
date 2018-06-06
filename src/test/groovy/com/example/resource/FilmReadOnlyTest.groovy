@@ -96,4 +96,18 @@ public class FilmReadOnlyTest extends ApiTestBase {
 		def response = target("films/1001").request().get();
 		assert response.getStatus() == 404
 	}
+
+	@Test
+	public void testCORSInSuccessfulResponse() {
+		def response = target("films/1").request().get();
+		assert response.getStatus() == 200
+		assert response.getHeaderString("Access-Control-Allow-Origin") == "*"
+	}
+
+	@Test
+	public void testCORSInErrorfulResponse() {
+		def response = target("films/1001").request().get();
+		assert response.getStatus() == 404
+		assert response.getHeaderString("Access-Control-Allow-Origin") == "*"
+	}
 }
