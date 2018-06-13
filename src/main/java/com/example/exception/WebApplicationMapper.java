@@ -1,4 +1,4 @@
-package com.example.provider;
+package com.example.exception;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;

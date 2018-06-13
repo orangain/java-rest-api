@@ -1,4 +1,4 @@
-package com.example.provider;
+package com.example.exception;
 
 import java.util.List;
 import java.util.stream.Collectors;
