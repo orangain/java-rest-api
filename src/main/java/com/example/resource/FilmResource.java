@@ -7,16 +7,16 @@ import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
@@ -61,7 +61,7 @@ public class FilmResource extends BaseResource {
 			FilmDao dao = this.getDao(session);
 			Film film = dao.getFilm(filmId);
 			if (film == null) {
-				throw new WebApplicationException(Status.NOT_FOUND);
+				throw new NotFoundException();
 			}
 
 			return film;
@@ -79,7 +79,7 @@ public class FilmResource extends BaseResource {
 			FilmDao dao = this.getDao(session);
 			int numAffected = dao.insertFilm(film);
 			if (numAffected == 0) {
-				throw new WebApplicationException("Failed to insert");
+				throw new InternalServerErrorException("Failed to insert");
 			}
 			session.commit();
 		}
@@ -90,7 +90,7 @@ public class FilmResource extends BaseResource {
 			FilmDao dao = this.getDao(session);
 			Film createdFilm = dao.getFilm(createdFilmId);
 			if (createdFilm == null) {
-				throw new WebApplicationException("Something wrong");
+				throw new InternalServerErrorException("Something wrong");
 			}
 
 			// See: https://stackoverflow.com/a/26094619
@@ -114,7 +114,7 @@ public class FilmResource extends BaseResource {
 			FilmDao dao = this.getDao(session);
 			int numAffected = dao.updateFilm(filmId, changes);
 			if (numAffected == 0) {
-				throw new WebApplicationException(Status.NOT_FOUND);
+				throw new NotFoundException();
 			}
 
 			session.commit();
@@ -125,7 +125,7 @@ public class FilmResource extends BaseResource {
 			FilmDao dao = this.getDao(session);
 			Film updatedFilm = dao.getFilm(filmId);
 			if (updatedFilm == null) {
-				throw new WebApplicationException("Something wrong");
+				throw new InternalServerErrorException("Something wrong");
 			}
 
 			return updatedFilm;
@@ -142,7 +142,7 @@ public class FilmResource extends BaseResource {
 			FilmDao dao = this.getDao(session);
 			int numAffected = dao.deleteFilm(filmId);
 			if (numAffected == 0) {
-				throw new WebApplicationException(Status.NOT_FOUND);
+				throw new NotFoundException();
 			}
 
 			session.commit();
