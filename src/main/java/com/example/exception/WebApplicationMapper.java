@@ -12,6 +12,10 @@ public class WebApplicationMapper implements ExceptionMapper<WebApplicationExcep
 
 	@Override
 	public Response toResponse(WebApplicationException exception) {
+		if (exception.getResponse().getStatus() != 404) {
+			exception.printStackTrace();
+		}
+
 		ApiError error = new ApiError(exception.getMessage());
 		return Response.status(exception.getResponse().getStatusInfo()).entity(error).build();
 	}
