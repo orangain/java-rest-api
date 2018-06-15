@@ -149,4 +149,12 @@ public class FilmResource extends BaseResource {
 			return Response.noContent().build();
 		}
 	}
+
+	@POST
+	@Path("_echo")
+	@Consumes(MediaType.WILDCARD)
+	@Produces(MediaType.APPLICATION_JSON)
+	public byte[] echo(byte[] body) {
+		return body;
+	}
 }
