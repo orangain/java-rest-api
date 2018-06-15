@@ -12,6 +12,10 @@ public class WebApplicationMapper implements ExceptionMapper<WebApplicationExcep
 
 	@Override
 	public Response toResponse(WebApplicationException exception) {
+		if (exception.getResponse().getStatus() < 400) {
+			return exception.getResponse(); // Ignore redirects
+		}
+
 		if (exception.getResponse().getStatus() != 404) {
 			exception.printStackTrace();
 		}
