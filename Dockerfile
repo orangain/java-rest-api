@@ -8,6 +8,8 @@ COPY gradle ./gradle
 RUN ./gradlew -version
 
 COPY *.gradle ./
+RUN ./gradlew --no-daemon resolveDependencies
+
 COPY src ./src
 RUN ./gradlew --no-daemon build -x test
 

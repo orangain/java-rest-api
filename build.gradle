@@ -48,3 +48,18 @@ test {
 		events 'skipped', 'passed', 'failed', 'standardError'
 	}
 }
+
+// Task to download dependencies.
+// See: https://stackoverflow.com/a/37442191
+task resolveDependencies {
+    doLast {
+        project.rootProject.allprojects.each { subProject ->
+            subProject.buildscript.configurations.findAll{ it.canBeResolved }.each { configuration ->
+                configuration.resolve()
+            }
+            subProject.configurations.findAll{ it.canBeResolved }.each { configuration ->
+                configuration.resolve()
+            }
+        }
+    }
+}
