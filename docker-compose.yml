@@ -5,6 +5,7 @@ services:
     build: .
     environment:
       JDBC_URL: jdbc:mysql://root:password@mysql/sakila?useSSL=false
+      ES_HOSTS: elasticsearch
     ports:
       - 8080:8080
   mysql:
@@ -20,3 +21,10 @@ services:
     # https://stackoverflow.com/questions/42226418/how-to-move-postresql-to-ram-disk-in-docker
     tmpfs:
       - /var/lib/mysql
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.3.0
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - 9200:9200
