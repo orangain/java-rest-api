@@ -31,7 +31,6 @@ public class Film {
 	private String rating;
 	private String specialFeatures;
 	private OffsetDateTime lastUpdate;
-	@QueryParam("language")
 	private LanguageInFilm language;
 	private List<FilmActor> actors;
 

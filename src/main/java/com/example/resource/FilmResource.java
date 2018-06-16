@@ -48,6 +48,7 @@ import org.glassfish.jersey.message.MessageBodyWorkers;
 
 import com.example.dao.FilmDao;
 import com.example.dto.Film;
+import com.example.dto.Film.LanguageInFilm;
 import com.example.dto.variant.FilmForCreate;
 import com.example.dto.variant.FilmForUpdate;
 import com.example.sqlmapper.FilmMapper;
@@ -77,7 +78,19 @@ public class FilmResource extends BaseResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(summary = "Get Films", tags = { "Film" })
-	public List<Film> getFilms(@BeanParam Film filter, @QueryParam("_sort") String sort) {
+	public List<Film> getFilms(@BeanParam Film filter, @QueryParam("language") Integer languageId,
+			@QueryParam("_sort") String sort) {
+		if (languageId != null) {
+			if (filter == null) {
+				filter = new Film();
+			}
+			if (filter.getLanguage() == null) {
+				LanguageInFilm language = new LanguageInFilm();
+				filter.setLanguage(language);
+			}
+			filter.getLanguage().setLanguageId(languageId);
+		}
+
 		try (SqlSession session = this.openSession()) {
 			FilmDao dao = this.getDao(session);
 			return dao.getFilms(filter, sort);
@@ -229,7 +242,12 @@ public class FilmResource extends BaseResource {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		BulkRequest request = new BulkRequest();
 
-		List<Film> films = this.getFilms(null, null);
+		List<Film> films;
+		try (SqlSession session = this.openSession()) {
+			FilmDao dao = this.getDao(session);
+			films = dao.getFilms();
+		}
+
 		for (Film film : films) {
 			try {
 				outputStream.reset();
@@ -267,7 +285,11 @@ public class FilmResource extends BaseResource {
 	@Produces(MediaType.APPLICATION_ATOM_XML)
 	@Operation(summary = "Atom feed", tags = { "Film" })
 	public String feed() {
-		List<Film> films = this.getFilms(null, null);
+		List<Film> films;
+		try (SqlSession session = this.openSession()) {
+			FilmDao dao = this.getDao(session);
+			films = dao.getFilms();
+		}
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("atom_1.0");

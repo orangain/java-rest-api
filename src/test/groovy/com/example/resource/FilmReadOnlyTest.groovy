@@ -61,7 +61,7 @@ public class FilmReadOnlyTest extends ApiTestBase {
 	}
 
 	@Test
-	public void testGetFilmsWithFilter() {
+	public void testGetFilmsFilterBySimpleField() {
 		def response = target("films").queryParam("rentalDuration", "5").request().get();
 		assert response.getStatus() == 200
 		assert response.getHeaderString("Content-Type") == "application/json"
@@ -72,6 +72,25 @@ public class FilmReadOnlyTest extends ApiTestBase {
 
 		def item = items[0]
 		assert item["rentalDuration"] == 5
+	}
+
+	@Test
+	public void testGetFilmsFilterByObjectField() {
+		def response = target("films").queryParam("language", "1").request().get();
+		assert response.getStatus() == 200
+		assert response.getHeaderString("Content-Type") == "application/json"
+
+		def items = this.parseJsonResponse(response)
+		assert items instanceof ArrayList
+		assert items.size() == 1000
+
+		response = target("films").queryParam("language", "2").request().get();
+		assert response.getStatus() == 200
+		assert response.getHeaderString("Content-Type") == "application/json"
+
+		items = this.parseJsonResponse(response)
+		assert items instanceof ArrayList
+		assert items.size() == 0
 	}
 
 	@Test

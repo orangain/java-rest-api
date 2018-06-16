@@ -47,6 +47,9 @@
 			<if test="filter.rentalDuration != null">
 				AND f.rental_duration = #{filter.rentalDuration}
 			</if>
+			<if test="filter.language != null &amp;&amp; filter.language.languageId != null">
+				AND f.language_id = #{filter.language.languageId}
+			</if>
 	    </where>
 	    ORDER BY
 		<choose>
