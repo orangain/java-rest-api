@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.sql.Date;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -47,6 +49,14 @@ import com.example.dto.Film;
 import com.example.dto.variant.FilmForCreate;
 import com.example.dto.variant.FilmForUpdate;
 import com.example.sqlmapper.FilmMapper;
+import com.rometools.rome.feed.synd.SyndContent;
+import com.rometools.rome.feed.synd.SyndContentImpl;
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndEntryImpl;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.feed.synd.SyndFeedImpl;
+import com.rometools.rome.io.FeedException;
+import com.rometools.rome.io.SyndFeedOutput;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -250,4 +260,38 @@ public class FilmResource extends BaseResource {
 		return String.format("{\"succeeded\": %d, \"failed\": %d}", succeeded, failed);
 	}
 
+	@GET
+	@Path("_feed")
+	@Produces(MediaType.APPLICATION_ATOM_XML)
+	@Operation(summary = "Atom feed", tags = { "Film" })
+	public String feed() {
+		List<Film> films = this.getFilms();
+
+		SyndFeed feed = new SyndFeedImpl();
+		feed.setFeedType("atom_1.0");
+		feed.setTitle("Latest films");
+		feed.setDescription("List of latest films");
+		feed.setLink("https://example.com");
+
+		List<SyndEntry> entries = films.stream().limit(10).map(film -> {
+			SyndEntry entry = new SyndEntryImpl();
+			entry.setTitle(film.getTitle());
+			entry.setLink("https://example.com/films/" + film.getFilmId().toString());
+			entry.setPublishedDate(Date.from(film.getLastUpdate().toInstant()));
+
+			SyndContent description = new SyndContentImpl();
+			description.setType("text/plain");
+			description.setValue(film.getDescription());
+			entry.setDescription(description);
+
+			return entry;
+		}).collect(Collectors.toList());
+		feed.setEntries(entries);
+
+		try {
+			return new SyndFeedOutput().outputString(feed);
+		} catch (FeedException e) {
+			throw new InternalServerErrorException(e);
+		}
+	}
 }
