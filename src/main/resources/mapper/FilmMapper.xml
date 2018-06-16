@@ -32,6 +32,12 @@
 			<if test="filmId != null">
 				AND f.film_id = #{filmId}
 			</if>
+			<if test="releaseYear != null">
+				AND f.release_year = #{releaseYear}
+			</if>
+			<if test="rentalDuration != null">
+				AND f.rental_duration = #{rentalDuration}
+			</if>
 	    </where>
 	    ORDER BY f.film_id, a.actor_id
 	</select>

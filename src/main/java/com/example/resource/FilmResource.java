@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -75,10 +76,10 @@ public class FilmResource extends BaseResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(summary = "Get Films", tags = { "Film" })
-	public List<Film> getFilms() {
+	public List<Film> getFilms(@BeanParam Film filter) {
 		try (SqlSession session = this.openSession()) {
 			FilmDao dao = this.getDao(session);
-			return dao.getFilms();
+			return dao.getFilms(filter);
 		}
 	}
 
@@ -227,7 +228,7 @@ public class FilmResource extends BaseResource {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		BulkRequest request = new BulkRequest();
 
-		List<Film> films = this.getFilms();
+		List<Film> films = this.getFilms(null);
 		for (Film film : films) {
 			try {
 				outputStream.reset();
@@ -265,7 +266,7 @@ public class FilmResource extends BaseResource {
 	@Produces(MediaType.APPLICATION_ATOM_XML)
 	@Operation(summary = "Atom feed", tags = { "Film" })
 	public String feed() {
-		List<Film> films = this.getFilms();
+		List<Film> films = this.getFilms(null);
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("atom_1.0");

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.QueryParam;
 
 import org.eclipse.persistence.oxm.annotations.XmlElementNillable;
 import org.eclipse.persistence.oxm.annotations.XmlWriteOnly;
@@ -19,8 +20,10 @@ public class Film {
 	private Integer filmId;
 	private String title;
 	private String description;
+	@QueryParam("releaseYear")
 	private Integer releaseYear;
 	private Integer originalLanguageId;
+	@QueryParam("rentalDuration")
 	private Integer rentalDuration;
 	private BigDecimal rentalRate;
 	private Integer length;
@@ -28,6 +31,7 @@ public class Film {
 	private String rating;
 	private String specialFeatures;
 	private OffsetDateTime lastUpdate;
+	@QueryParam("language")
 	private LanguageInFilm language;
 	private List<FilmActor> actors;
 
