@@ -21,23 +21,23 @@ repositories {
 }
 
 dependencies {
-    compile 'org.glassfish.jersey.core:jersey-server:2.27'
-    compile 'org.glassfish.jersey.containers:jersey-container-jetty-servlet:2.27'
-    compile 'org.glassfish.jersey.inject:jersey-hk2:2.27'
-    compile 'org.glassfish.jersey.media:jersey-media-moxy:2.27'
-    compile 'org.glassfish.jersey.ext:jersey-bean-validation:2.27'
-    compile 'org.eclipse.jetty:jetty-server:9.4.10.v20180503'
-    compile 'org.eclipse.jetty:jetty-servlet:9.4.10.v20180503'
-    compile 'org.mybatis:mybatis:3.4.6'
-    compile 'ch.qos.logback:logback-classic:1.2.3'
-    compile 'mysql:mysql-connector-java:8.0.11'
-    compile 'commons-beanutils:commons-beanutils:1.9.3'
-    compile 'io.swagger.core.v3:swagger-jaxrs2:2.0.2'
-    compile 'io.swagger.core.v3:swagger-jaxrs2-servlet-initializer:2.0.2'
+    implementation 'org.glassfish.jersey.core:jersey-server:2.27'
+    implementation 'org.glassfish.jersey.containers:jersey-container-jetty-servlet:2.27'
+    implementation 'org.glassfish.jersey.inject:jersey-hk2:2.27'
+    implementation 'org.glassfish.jersey.media:jersey-media-moxy:2.27'
+    implementation 'org.glassfish.jersey.ext:jersey-bean-validation:2.27'
+    implementation 'org.eclipse.jetty:jetty-server:9.4.10.v20180503'
+    implementation 'org.eclipse.jetty:jetty-servlet:9.4.10.v20180503'
+    implementation 'org.mybatis:mybatis:3.4.6'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation 'mysql:mysql-connector-java:8.0.11'
+    implementation 'commons-beanutils:commons-beanutils:1.9.3'
+    implementation 'io.swagger.core.v3:swagger-jaxrs2:2.0.2'
+    implementation 'io.swagger.core.v3:swagger-jaxrs2-servlet-initializer:2.0.2'
 
-    testCompile 'org.codehaus.groovy:groovy-all:2.4.15'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.27'
+    testImplementation 'org.codehaus.groovy:groovy-all:2.4.15'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-grizzly2:2.27'
 }
 
 test {
