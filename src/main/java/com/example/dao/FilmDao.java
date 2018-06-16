@@ -31,7 +31,7 @@ public class FilmDao {
 	 * @return list of {@code Film} objects
 	 */
 	public List<Film> getFilms() {
-		return mapper.selectFilm();
+		return mapper.selectFilms();
 	}
 
 	/**
@@ -42,8 +42,8 @@ public class FilmDao {
 	 *            object are used as WHERE clause.
 	 * @return list of {@code Film} object
 	 */
-	public List<Film> getFilms(Film filter) {
-		return mapper.selectFilm(filter);
+	public List<Film> getFilms(Film filter, String sort) {
+		return mapper.selectFilms(filter, sort);
 	}
 
 	/**

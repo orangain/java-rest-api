@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.sqlmapper.FilmMapper">
-	<select id="selectFilm" parameterType="com.example.dto.Film" resultMap="filmResultMap">
+	<sql id="sqlSelectFilm">
 		SELECT
 			f.film_id,
 			f.title,
@@ -28,18 +28,42 @@
 		LEFT JOIN language AS l ON f.language_id = l.language_id
 		LEFT JOIN film_actor AS fa ON f.film_id = fa.film_id
 		LEFT JOIN actor AS a ON fa.actor_id = a.actor_id
+	</sql>
+
+	<select id="selectFilm" resultMap="filmResultMap">
+		<include refid="sqlSelectFilm"/>
+		WHERE f.film_id = #{filmId}
+	</select>
+
+	<select id="selectFilms" resultMap="filmResultMap">
+		<include refid="sqlSelectFilm"/>
 		<where>
-			<if test="filmId != null">
-				AND f.film_id = #{filmId}
+			<if test="filter.filmId != null">
+				AND f.film_id = #{filter.filmId}
 			</if>
-			<if test="releaseYear != null">
-				AND f.release_year = #{releaseYear}
+			<if test="filter.releaseYear != null">
+				AND f.release_year = #{filter.releaseYear}
 			</if>
-			<if test="rentalDuration != null">
-				AND f.rental_duration = #{rentalDuration}
+			<if test="filter.rentalDuration != null">
+				AND f.rental_duration = #{filter.rentalDuration}
 			</if>
 	    </where>
-	    ORDER BY f.film_id, a.actor_id
+	    ORDER BY
+		<choose>
+			<when test="sort == '-filmId'">
+				f.film_id DESC,
+			</when>
+			<when test="sort == 'rentalDuration'">
+				f.rental_duration,
+			</when>
+			<when test="sort == '-rentalDuration'">
+				f.rental_duration DESC,
+			</when>
+			<otherwise>
+				f.film_id,
+			</otherwise>
+		</choose>
+		a.actor_id
 	</select>
 
 	<resultMap id="filmResultMap" type="com.example.dto.Film">

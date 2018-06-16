@@ -26,7 +26,7 @@ public interface FilmMapper {
 	 * 
 	 * @return list of {@code Film} objects
 	 */
-	List<Film> selectFilm();
+	List<Film> selectFilms();
 
 	/**
 	 * Get filtered {@code Film}s from database.
@@ -36,7 +36,7 @@ public interface FilmMapper {
 	 *            object are used as WHERE clause.
 	 * @return list of {@code Film} object
 	 */
-	List<Film> selectFilm(Film filter);
+	List<Film> selectFilms(@Param("filter") Film filter, @Param("sort") String sort);
 
 	/**
 	 * Insert a {@code Film} into database.

@@ -23,6 +23,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -76,10 +77,10 @@ public class FilmResource extends BaseResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(summary = "Get Films", tags = { "Film" })
-	public List<Film> getFilms(@BeanParam Film filter) {
+	public List<Film> getFilms(@BeanParam Film filter, @QueryParam("_sort") String sort) {
 		try (SqlSession session = this.openSession()) {
 			FilmDao dao = this.getDao(session);
-			return dao.getFilms(filter);
+			return dao.getFilms(filter, sort);
 		}
 	}
 
@@ -228,7 +229,7 @@ public class FilmResource extends BaseResource {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		BulkRequest request = new BulkRequest();
 
-		List<Film> films = this.getFilms(null);
+		List<Film> films = this.getFilms(null, null);
 		for (Film film : films) {
 			try {
 				outputStream.reset();
@@ -266,7 +267,7 @@ public class FilmResource extends BaseResource {
 	@Produces(MediaType.APPLICATION_ATOM_XML)
 	@Operation(summary = "Atom feed", tags = { "Film" })
 	public String feed() {
-		List<Film> films = this.getFilms(null);
+		List<Film> films = this.getFilms(null, null);
 
 		SyndFeed feed = new SyndFeedImpl();
 		feed.setFeedType("atom_1.0");

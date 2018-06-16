@@ -75,6 +75,20 @@ public class FilmReadOnlyTest extends ApiTestBase {
 	}
 
 	@Test
+	public void testGetFilmsSort() {
+		def response = target("films").queryParam("_sort", "-filmId").request().get();
+		assert response.getStatus() == 200
+		assert response.getHeaderString("Content-Type") == "application/json"
+
+		def items = this.parseJsonResponse(response)
+		assert items instanceof ArrayList
+		assert items.size() == 1000
+
+		def item = items[0]
+		assert item["filmId"] == 1000
+	}
+
+	@Test
 	public void testGetFilm() {
 		def response = target("films/1").request().get();
 		assert response.getStatus() == 200
