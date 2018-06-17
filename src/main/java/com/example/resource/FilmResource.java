@@ -201,7 +201,7 @@ public class FilmResource extends BaseResource {
 
 	@POST
 	@Path("_echo")
-	@Consumes(MediaType.WILDCARD)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(summary = "Echo back request body", tags = { "Film" })
 	public byte[] echo(byte[] body) {
@@ -210,7 +210,7 @@ public class FilmResource extends BaseResource {
 
 	@POST
 	@Path("_search")
-	@Consumes(MediaType.WILDCARD)
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(summary = "Search films", tags = { "Film" })
 	public Response search(byte[] body) {

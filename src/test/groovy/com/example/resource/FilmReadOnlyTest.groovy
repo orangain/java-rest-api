@@ -178,4 +178,17 @@ public class FilmReadOnlyTest extends ApiTestBase {
 		String feedText = response.readEntity(String.class)
 		assert feedText.contains('<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">')
 	}
+
+	@Test
+	public void testEcho() {
+		def postItem = [
+			message: "こんにちは"
+		]
+		def response = target("films/_echo").request().post(this.buildJsonEntity(postItem));
+		assert response.getStatus() == 200
+		assert response.getHeaderString("Content-Type") == "application/json"
+
+		def item = this.parseJsonResponse(response)
+		assert item == postItem
+	}
 }
