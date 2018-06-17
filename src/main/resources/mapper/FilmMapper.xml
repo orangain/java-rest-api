@@ -35,20 +35,22 @@
 		WHERE f.film_id = #{filmId}
 	</select>
 
-	<select id="selectFilms" resultMap="filmResultMap">
+	<select id="selectFilms" parameterType="com.example.dto.Film" resultMap="filmResultMap">
 		<include refid="sqlSelectFilm"/>
 		<where>
-			<if test="filter.filmId != null">
-				AND f.film_id = #{filter.filmId}
-			</if>
-			<if test="filter.releaseYear != null">
-				AND f.release_year = #{filter.releaseYear}
-			</if>
-			<if test="filter.rentalDuration != null">
-				AND f.rental_duration = #{filter.rentalDuration}
-			</if>
-			<if test="filter.language != null &amp;&amp; filter.language.languageId != null">
-				AND f.language_id = #{filter.language.languageId}
+			<if test="filter != null">
+				<if test="filter.filmId != null">
+					AND f.film_id = #{filter.filmId}
+				</if>
+				<if test="filter.releaseYear != null">
+					AND f.release_year = #{filter.releaseYear}
+				</if>
+				<if test="filter.rentalDuration != null">
+					AND f.rental_duration = #{filter.rentalDuration}
+				</if>
+				<if test="filter.language != null &amp;&amp; filter.language.languageId != null">
+					AND f.language_id = #{filter.language.languageId}
+				</if>
 			</if>
 	    </where>
 	    ORDER BY

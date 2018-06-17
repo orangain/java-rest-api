@@ -22,18 +22,13 @@ public interface FilmMapper {
 	Film selectFilm(@Param("filmId") int filmId);
 
 	/**
-	 * Get all {@code Film}s from database.
-	 * 
-	 * @return list of {@code Film} objects
-	 */
-	List<Film> selectFilms();
-
-	/**
 	 * Get filtered {@code Film}s from database.
 	 * 
 	 * @param filter
 	 *            A {@code Film} object to filter result. Modified properties of the
 	 *            object are used as WHERE clause.
+	 * @param sort
+	 *            Sort order
 	 * @return list of {@code Film} object
 	 */
 	List<Film> selectFilms(@Param("filter") Film filter, @Param("sort") String sort);

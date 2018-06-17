@@ -157,4 +157,14 @@ public class FilmReadOnlyTest extends ApiTestBase {
 		assert response.getStatus() == 404
 		assert response.getHeaderString("Access-Control-Allow-Origin") == "*"
 	}
+
+	@Test
+	public void testGetFilmFeed() {
+		def response = target("films/_feed").request().get();
+		assert response.getStatus() == 200
+		assert response.getHeaderString("Content-Type") == "application/atom+xml"
+
+		String feedText = response.readEntity(String.class)
+		assert feedText.contains('<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">')
+	}
 }

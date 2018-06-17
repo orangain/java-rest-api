@@ -31,7 +31,7 @@ public class FilmDao {
 	 * @return list of {@code Film} objects
 	 */
 	public List<Film> getFilms() {
-		return mapper.selectFilms();
+		return this.getFilms(null, null);
 	}
 
 	/**
