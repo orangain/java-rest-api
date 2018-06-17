@@ -20,5 +20,6 @@
   <mappers>
     <mapper resource="mapper/CustomerMapper.xml"/>
     <mapper resource="mapper/FilmMapper.xml"/>
+    <mapper resource="mapper/MailMapper.xml"/>
   </mappers>
 </configuration>

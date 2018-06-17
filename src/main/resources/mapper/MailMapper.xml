@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.sqlmapper.MailMapper">
+	
+	<insert id="insertMail" parameterType="com.example.dto.Mail" useGeneratedKeys="true" keyProperty="mailId">
+		INSERT INTO mail
+			(`from`, `to`, cc, subject, body, is_succeeded)
+		VALUES
+			(#{from}, #{to}, #{cc}, #{subject}, #{body}, #{isSucceeded})
+	</insert>
+
+	<update id="updateMail" parameterType="com.example.dto.Mail">
+		UPDATE mail
+		<set>
+			<if test="isSucceeded != null">is_succeeded = #{isSucceeded},</if>
+		</set>
+		<where>
+			mail_id = #{mailId}
+		</where>
+		LIMIT 1
+	</update>
+
+</mapper>

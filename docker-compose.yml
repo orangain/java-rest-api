@@ -6,6 +6,8 @@ services:
     environment:
       JDBC_URL: jdbc:mysql://root:password@mysql/sakila?useSSL=false
       ES_HOSTS: elasticsearch
+      SMTP_HOST: mailcatcher
+      SMTP_PORT: 1025
     ports:
       - 8080:8080
   mysql:
@@ -17,6 +19,7 @@ services:
     volumes:
       - ./src/test/resources/sql/sakila-schema.sql:/docker-entrypoint-initdb.d/01-sakila-schema.sql
       - ./src/test/resources/sql/sakila-data.sql:/docker-entrypoint-initdb.d/02-sakila-data.sql
+      - ./src/test/resources/sql/custom.sql:/docker-entrypoint-initdb.d/03-custom.sql
     # Use tmpfs for /var/lib/mysql
     # https://stackoverflow.com/questions/42226418/how-to-move-postresql-to-ram-disk-in-docker
     tmpfs:
@@ -28,3 +31,7 @@ services:
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - 9200:9200
+  mailcatcher:
+    image: schickling/mailcatcher:latest
+    ports:
+      - 1080:1080
