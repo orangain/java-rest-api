@@ -79,7 +79,7 @@ public class FilmResource extends BaseResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(summary = "Get Films", tags = { "Film" })
 	public List<Film> getFilms(@BeanParam Film filter, @QueryParam("language") Integer languageId,
-			@QueryParam("_sort") String sort) {
+			@QueryParam("_sort") String sort, @QueryParam("_limit") Integer limit) {
 		if (languageId != null) {
 			if (filter == null) {
 				filter = new Film();
@@ -93,7 +93,13 @@ public class FilmResource extends BaseResource {
 
 		try (SqlSession session = this.openSession()) {
 			FilmDao dao = this.getDao(session);
-			return dao.getFilms(filter, sort);
+			List<Film> items = dao.getFilms(filter, sort);
+			if (limit != null) {
+				// For performance, it is better to use LIMIT in SQL.
+				// However, using LIMIT with MyBatis collection causes unexpected small result.
+				items = items.subList(0, limit);
+			}
+			return items;
 		}
 	}
 
