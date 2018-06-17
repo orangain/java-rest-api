@@ -1,14 +1,17 @@
 package com.example.dao;
 
+import org.apache.ibatis.session.SqlSession;
+
 import com.example.dto.Mail;
 import com.example.sqlmapper.MailMapper;
 
-public class MailDao {
+public class MailDao extends BaseDao {
 
 	private MailMapper mapper;
 
-	public MailDao(MailMapper mapper) {
-		this.mapper = mapper;
+	public MailDao(SqlSession session) {
+		super(session);
+		this.mapper = session.getMapper(MailMapper.class);
 	}
 
 	/**

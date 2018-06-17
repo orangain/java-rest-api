@@ -17,13 +17,11 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
-import org.apache.ibatis.session.SqlSession;
 
 import com.example.dao.MailDao;
 import com.example.dto.ApiError;
 import com.example.dto.Mail;
 import com.example.dto.variant.MailForCreate;
-import com.example.sqlmapper.MailMapper;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,8 +31,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @Path("mails")
 public class MailResource extends BaseResource {
 
-	private MailDao getDao(SqlSession session) {
-		return new MailDao(session.getMapper(MailMapper.class));
+	private MailDao openSessionAndGetDao() {
+		return new MailDao(this.openSession());
 	}
 
 	@POST
@@ -45,13 +43,12 @@ public class MailResource extends BaseResource {
 	@ApiResponse(responseCode = "400", description = "Validation error", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = ApiError.class)))
 	public Response createMail(@Valid MailForCreate item, @Context UriInfo uriInfo) {
 		// Save at first
-		try (SqlSession session = this.openSession()) {
-			MailDao dao = this.getDao(session);
+		try (MailDao dao = this.openSessionAndGetDao()) {
 			int numAffected = dao.insertMail(item);
 			if (numAffected == 0) {
 				throw new InternalServerErrorException("Failed to insert");
 			}
-			session.commit();
+			dao.commit();
 		}
 		int createdItemId = item.getMailId();
 
@@ -75,13 +72,12 @@ public class MailResource extends BaseResource {
 		}
 
 		// Update result
-		try (SqlSession session = this.openSession()) {
-			MailDao dao = this.getDao(session);
+		try (MailDao dao = this.openSessionAndGetDao()) {
 			int numAffected = dao.updateMail(createdItemId, item);
 			if (numAffected == 0) {
 				throw new InternalServerErrorException("Failed to update");
 			}
-			session.commit();
+			dao.commit();
 		}
 
 		// See: https://stackoverflow.com/a/26094619
