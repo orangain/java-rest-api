@@ -80,15 +80,11 @@ public class FilmResource extends BaseResource {
 	@Operation(summary = "Get Films", tags = { "Film" })
 	public List<Film> getFilms(@BeanParam Film filter, @QueryParam("language") Integer languageId,
 			@QueryParam("_sort") String sort, @QueryParam("_limit") Integer limit) {
+
 		if (languageId != null) {
-			if (filter == null) {
-				filter = new Film();
-			}
-			if (filter.getLanguage() == null) {
-				LanguageInFilm language = new LanguageInFilm();
-				filter.setLanguage(language);
-			}
-			filter.getLanguage().setLanguageId(languageId);
+			LanguageInFilm language = new LanguageInFilm();
+			language.setLanguageId(languageId);
+			filter.setLanguage(language);
 		}
 
 		try (SqlSession session = this.openSession()) {
