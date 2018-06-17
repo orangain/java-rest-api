@@ -83,9 +83,7 @@ public class Film {
 		this.rentalDuration = rentalDuration;
 	}
 
-	// NOTE: Unable to override BigDecimal's type.
-	// NOTE: format="decimal" is not a standard.
-	@Schema(type = "string", format = "decimal")
+	@Schema(type = "string")
 	public BigDecimal getRentalRate() {
 		return rentalRate;
 	}
@@ -104,9 +102,7 @@ public class Film {
 		this.length = length;
 	}
 
-	// NOTE: Unable to override BigDecimal's type.
-	// NOTE: format="decimal" is not a standard.
-	@Schema(type = "string", format = "decimal")
+	@Schema(type = "string")
 	public BigDecimal getReplacementCost() {
 		return replacementCost;
 	}
