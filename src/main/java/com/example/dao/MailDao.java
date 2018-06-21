@@ -14,6 +14,10 @@ public class MailDao extends BaseDao {
 		this.mapper = session.getMapper(MailMapper.class);
 	}
 
+	public Mail getMail(Integer mailId) {
+		return this.mapper.selectMail(mailId);
+	}
+
 	/**
 	 * Insert a {@code Mail} and its collections into database.
 	 * 

@@ -44,7 +44,9 @@ dependencies {
 }
 
 test {
-	environment 'DATABASE_URL', 'jdbc:mysql://root:password@localhost/sakila?useSSL=false'
+	environment 'DATABASE_URL', 'jdbc:mysql://root:password@localhost/sakila?useSSL=false&useUnicode=true&characterEncoding=UTF-8'
+	environment 'SMTP_HOST', 'localhost'
+	environment 'SMTP_PORT', '1025'
 	systemProperty 'user.timezone', 'UTC' // Use UTC
 	testLogging {
 		exceptionFormat 'full'

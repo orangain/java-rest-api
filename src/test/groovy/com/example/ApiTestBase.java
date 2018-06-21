@@ -51,6 +51,7 @@ public class ApiTestBase extends JerseyTest {
 	public static void resetDB() {
 		runSql("/sql/sakila-schema.sql");
 		runSql("/sql/sakila-data.sql");
+		runSql("/sql/custom.sql");
 	}
 
 	public static void runSql(String resourceName) {

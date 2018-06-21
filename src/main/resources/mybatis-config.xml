@@ -3,7 +3,7 @@
 <configuration>
   <properties>
     <property name="JDBC_DRIVER" value="com.mysql.cj.jdbc.Driver"/>
-    <property name="JDBC_URL" value="jdbc:mysql://root:password@localhost/sakila?useSSL=false"/>
+    <property name="JDBC_URL" value="jdbc:mysql://root:password@localhost/sakila?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
   </properties>
   <settings>
     <setting name="mapUnderscoreToCamelCase" value="true"/>

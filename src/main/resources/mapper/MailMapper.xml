@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.sqlmapper.MailMapper">
 	
+	<select id="selectMail" resultType="com.example.dto.Mail">
+		SELECT * FROM mail WHERE mail_id = #{mailId}
+	</select>
+
 	<insert id="insertMail" parameterType="com.example.dto.Mail" useGeneratedKeys="true" keyProperty="mailId">
 		INSERT INTO mail
 			(`from`, `to`, cc, subject, body, is_succeeded)

@@ -80,10 +80,15 @@ public class MailResource extends BaseResource {
 			dao.commit();
 		}
 
-		// See: https://stackoverflow.com/a/26094619
-		UriBuilder builder = uriInfo.getAbsolutePathBuilder();
-		URI location = builder.path(Integer.toString(createdItemId)).build();
+		try (MailDao dao = this.openSessionAndGetDao()) {
+			Mail createdItem = dao.getMail(createdItemId);
 
-		return Response.created(location).entity(item).build();
+			// See: https://stackoverflow.com/a/26094619
+			UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+			URI location = builder.path(Integer.toString(createdItemId)).build();
+
+			return Response.created(location).entity(createdItem).build();
+		}
+
 	}
 }

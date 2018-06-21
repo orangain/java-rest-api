@@ -1,5 +1,7 @@
 package com.example.sqlmapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.example.dto.Mail;
 
 /**
@@ -7,6 +9,8 @@ import com.example.dto.Mail;
  *
  */
 public interface MailMapper {
+
+	Mail selectMail(@Param("mailId") Integer mailId);
 
 	/**
 	 * Insert a {@code Mail} into database.
