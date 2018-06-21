@@ -1,8 +1,11 @@
 package com.example.sqlmapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.example.dto.Mail;
+import com.example.dto.Mail.AttachmentInMail;
 
 /**
  * MyBatis mapper interface for Mail.
@@ -30,4 +33,8 @@ public interface MailMapper {
 	 * @return number of affected rows
 	 */
 	int updateMail(Mail changes);
+
+	int insertAttachments(List<AttachmentInMail> attachments);
+
+	AttachmentInMail selectAttachment(@Param("mailId") Integer mailId, @Param("index") Integer index);
 }

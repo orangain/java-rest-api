@@ -3,6 +3,7 @@ package com.example.dao;
 import org.apache.ibatis.session.SqlSession;
 
 import com.example.dto.Mail;
+import com.example.dto.Mail.AttachmentInMail;
 import com.example.sqlmapper.MailMapper;
 
 public class MailDao extends BaseDao {
@@ -32,6 +33,14 @@ public class MailDao extends BaseDao {
 			return numAffected; // Failed to insert
 		}
 
+		int i = 0;
+		for (AttachmentInMail a : item.getAttachments()) {
+			a.setMailId(item.getMailId());
+			a.setIndex(i++);
+			a.setSize((long) a.getContent().length);
+		}
+		numAffected += mapper.insertAttachments(item.getAttachments());
+
 		return numAffected;
 	}
 
@@ -58,5 +67,9 @@ public class MailDao extends BaseDao {
 		}
 
 		return numAffected;
+	}
+
+	public AttachmentInMail getAttachment(Integer mailId, Integer index) {
+		return this.mapper.selectAttachment(mailId, index);
 	}
 }

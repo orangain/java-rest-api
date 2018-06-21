@@ -24,4 +24,16 @@
 		LIMIT 1
 	</update>
 
+	<insert id="insertAttachments" parameterType="com.example.dto.Mail$AttachmentInMail" useGeneratedKeys="true" keyProperty="mailId,index">
+		INSERT INTO mail_attachment
+			(`mail_id`, `index`, filename, size, content)
+		VALUES
+		<foreach item="item" collection="list">
+			(#{item.mailId}, #{item.index}, #{item.filename}, #{item.size}, #{item.content})
+		</foreach>
+	</insert>
+
+	<select id="selectAttachment" resultType="com.example.dto.Mail$AttachmentInMail">
+		SELECT * FROM mail_attachment WHERE mail_id = #{mailId} AND `index` = #{index}
+	</select>
 </mapper>
