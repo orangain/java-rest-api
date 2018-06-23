@@ -2,6 +2,8 @@ package com.example.resource;
 
 import java.net.URI;
 
+import javax.activation.DataSource;
+import javax.mail.util.ByteArrayDataSource;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -16,9 +18,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
+import org.apache.commons.mail.MultiPartEmail;
 
 import com.example.dao.MailDao;
 import com.example.dto.ApiError;
@@ -59,7 +60,7 @@ public class MailResource extends BaseResource {
 		String smtpHost = System.getenv("SMTP_HOST");
 		int smtpPort = Integer.parseInt(System.getenv("SMTP_PORT"));
 
-		Email email = new SimpleEmail();
+		MultiPartEmail email = new MultiPartEmail();
 		email.setHostName(smtpHost);
 		email.setSmtpPort(smtpPort);
 		try {
@@ -67,6 +68,13 @@ public class MailResource extends BaseResource {
 			email.setSubject(item.getSubject());
 			email.setMsg(item.getBody());
 			email.addTo(item.getTo());
+
+			System.err.println(item.getAttachments());
+			for (AttachmentInMail a : item.getAttachments()) {
+				DataSource source = new ByteArrayDataSource(a.getContent(), "application/octet-stream");
+				email.attach(source, a.getFilename(), "");
+			}
+
 			email.send();
 
 			item.setIsSucceeded(true);
